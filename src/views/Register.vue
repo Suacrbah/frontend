@@ -26,8 +26,8 @@
               <v-card-text>
                 <v-form>
                   <v-text-field
-                    label="Login"
-                    name="login"
+                    label="Username"
+                    name="username"
                     v-model="form.username"
                     prepend-icon="mdi-account"
                     type="text"
@@ -62,14 +62,14 @@
                     id="captcha"
                     label="Captcha"
                     name="captcha"
-                    v-model="form.captcha"
+                    v-model="form.validCode"
                     prepend-icon="mdi-captcha"
                     type="captcha"></v-text-field>
                 </v-form>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary">Registry</v-btn>
+                <v-btn style="bottom: 12px" color="primary" @click="submitForm()">Register</v-btn>
               </v-card-actions>
             </v-card>
           </v-col>
@@ -90,7 +90,7 @@
           username: '',
           hashedPassword: '',
           email: '',
-          captcha: '',
+          validCode: '',
         }
       }
     },
@@ -98,6 +98,15 @@
       source: String,
     },
     methods: {
+      submitForm() {
+        if (this.form.validCode == this.res) {
+          this.$axios.post('http://192.168.43.145:8889/registry', this.form);
+          alert("You are successfully registered!");
+          this.$router.push('/login');
+        } else {
+            alert("Please input the right captha code!");
+        }
+      },
       sendCode() {
         this.$axios.get('http://192.168.43.145:8889/registryValid/' + this.form.email)
         .then(
