@@ -5,6 +5,11 @@ import router from './router'
 import store from './store'
 import axios from 'axios'
 
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
+// use
+Vue.use(mavonEditor)
+
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 

@@ -1,12 +1,14 @@
 <template>
     <div>
-        question
+        <editor></editor>
     </div>
 </template>
 
 <script>
+    import Editor from "../components/editor";
     export default {
-        name: "QuestionEdit"
+        name: "QuestionEdit",
+        components: {Editor}
     }
 </script>
 
