@@ -1,72 +1,105 @@
 <template>
-  <v-container>
-<v-text-field
-        label="Email"
-        v-model="email"
-        :rules="[v => !!v || 'Email is required']"
-        required
-></v-text-field>
-<v-text-field
-        label="Password"
-        v-model="password"
-        type="password"
-        :rules="[v => !!v || 'Password is required']"
-        required
-></v-text-field>
-  </v-container>
+    <v-layout row justify-center>
+      <v-toolbar app dark color="primary" class="hidden-xs-and-down">
+        <v-toolbar-title>Desktop Menu</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-toolbar-items>
+         <v-btn
+           v-for="item in nav"
+           :key="item.icon"
+           to="#"
+           :title="item.title"
+           flat
+         >{{ item.text }}</v-btn>
+        </v-toolbar-items>
+      </v-toolbar>
+      
+      <v-toolbar app dark color="primary" class="hidden-sm-and-up">
+        <v-toolbar-title>Mobile Menu</v-toolbar-title>
+        <v-spacer></v-spacer>
+
+        <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
+          <v-toolbar-side-icon dark slot="activator"></v-toolbar-side-icon>
+          <v-card>
+            <v-toolbar flat color="primary">
+              <v-toolbar-title>Mobile Menu</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-btn icon @click.native="dialog = false">
+                <v-icon>close</v-icon>
+              </v-btn>
+            </v-toolbar>
+
+            <v-list>
+              <v-list-tile
+                v-for="(item, index) in nav"
+                :key="index"
+                to="#"
+              >
+                <v-list-tile-action>
+                  <v-icon v-if="item.icon">{{item.icon}}</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                  <v-list-tile-title :title="item.title">{{ item.text }}</v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+          </v-card>
+        </v-dialog>
+
+      </v-toolbar>
+      
+      <v-container fluid>
+        <v-slide-y-transition mode="out-in">
+          <v-layout column align-center>
+            <h1 class="display-1">Vuetify Desktop / Mobile navbar example</h1>
+            <p>
+              A quick demo of how to combine a desktop navigation and a 
+              mobile overlay (dialog) navigation menu.
+            </p>
+            <p>
+              Resize the window to see the navbar change to mobile version.
+            </p>
+            <p>
+              My deep gratitude towards the VueJS and Vuetify team!
+            </p>
+          </v-layout>
+        </v-slide-y-transition>
+      </v-container>
+    </v-layout>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      allowSpaces: false,
-      match: 'Foobar',
-      max: 0,
-      model: 'Foobar',
-    }),
-
-    computed: {
-      rules () {
-        const rules = []
-
-        if (this.max) {
-          const rule =
-            v => (v || '').length <= this.max ||
-              `A maximum of ${this.max} characters is allowed`
-
-          rules.push(rule)
+export default {
+  data () {
+    return {
+      dialog: false,
+      nav: [
+        {
+          icon: 'home',
+          text: 'Home',
+          title: 'Back to Home page',
+          active: true
+        },
+        {
+          icon: 'info',
+          text: 'About',
+          title: 'About this demo',
+          active: false
+        },
+        {
+          icon: 'assignment_turned_in',
+          text: 'Todos',
+          title: 'Some stuff that needs doing',
+          active: false
+        },
+        {
+          icon: 'email',
+          text: 'Contact',
+          title: 'Our Contact info',
+          active: false
         }
-
-        if (!this.allowSpaces) {
-          const rule =
-            v => (v || '').indexOf(' ') < 0 ||
-              'No spaces are allowed'
-
-          rules.push(rule)
-        }
-
-        if (this.match) {
-          const rule =
-            v => (!!v && v) === this.match ||
-              'Values do not match'
-
-          rules.push(rule)
-        }
-
-        return rules
-      },
-    },
-
-    watch: {
-      match: 'validateField',
-      max: 'validateField',
-      model: 'validateField',
-    },
-
-    methods: {
-      validateField () {
-        this.$refs.form.validate()
-      },
-    },
+      ]
+    }
   }
-</script>s
+}
+</script>
