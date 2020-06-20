@@ -4,7 +4,6 @@ import Questions from '../views/Questions.vue'
 import QuestionEdit from '../views/QuestionEdit.vue'
 import QuestionDetail from '../views/QuestionDetail.vue'
 import MainPage from '../views/MainPage.vue'
-import HelloWorld from '../views/HelloWorld.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Debug from '../views/Debug.vue'
@@ -51,11 +50,6 @@ Vue.use(VueRouter)
       path: '/question/:questionId/edit/',
       name: 'QuestionEdit',
       component: QuestionEdit
-    },
-    {
-      path: '/hello',
-      name: 'Hello',
-      component: HelloWorld
     },
     {
       path: '/debug',
