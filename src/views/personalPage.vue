@@ -1,5 +1,5 @@
 <template>
-  <div id="personalPage">
+  <div>
     <app-bar></app-bar>
 
     <v-card class="mx-auto" max-width="1000">
@@ -41,9 +41,11 @@
         <v-tabs-items v-model="tab">
           <v-tab-item v-for="item in items" :key="item.tab">
             <v-card width="100%" v-for="content in item.contents" :key="content">
-              <v-card-text>{{ content.question }}</v-card-text>
-              <v-card-text>{{ content.answer }}</v-card-text>
+              <v-card-title>{{ content.title }}</v-card-title>
+              <v-card-text>{{ content.content }}</v-card-text>
             </v-card>
+            <v-pagination v-model="item.current_page" :length=item.total_page v-on:next="changeToPage()" 
+            v-on:input="changeToPage()"></v-pagination>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -57,27 +59,23 @@ export default {
   components: { AppBar },
   data() {
     return {
+      
+      errors: [],
+
       userinfo: {
         id: " ",
         avatarurl: "",
         email: " ",
         introduction: " ",
-        username: " "
+        username: " ",
       },
       tab: null,
       items: [
         {
           tab: "提问",
-          contents: [
-            {
-              question: "问题1",
-              answer: "简介"
-            },
-            {
-              question: "问题2",
-              answer: "简介"
-            }
-          ]
+          contents: [],
+          total_page: 1,
+          current_page:1,
         },
         {
           tab: "收藏",
@@ -117,6 +115,7 @@ export default {
     // getQA(),
     // 获取用户信息
     this.getUserInfo();
+    this.changeToPage();
   },
 
   methods: {
@@ -137,6 +136,24 @@ export default {
       this.userinfo.introduction = va["introduction"];
       this.userinfo.username = va["username"];
       this.userinfo.avatarurl = va["avatar-url"];
+    },
+    changeToPage(){
+        const _this=this;
+        console.log('http://192.168.43.145:8889/question/my_question?currentPage='+this.items[0].current_page);
+        this.$axios.get('http://192.168.43.145:8889/question/my_question?currentPage='+this.items[0].current_page,
+        {
+            headers:{
+                "Authorization": localStorage.getItem("token")
+
+            }
+        }
+        ).then(res=>{
+            console.log(res.data);
+            
+            _this.items[0].total_page = res.data.data.pages;
+            _this.items[0].current_page = res.data.data.current;
+            _this.items[0].contents = res.data.data.records;
+        }).catch(e => {this.errors.push(e);});
     }
   }
 };
