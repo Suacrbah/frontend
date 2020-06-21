@@ -74,7 +74,7 @@
 
         const _this = this
 
-         this.$axios.post('http://192.168.43.145:8889/login', this.form)
+         this.$axios.post('/login', this.form)
         .then(res => {
             this.res = res.data;
               if (this.res['code'] === 200) {

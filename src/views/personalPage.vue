@@ -46,17 +46,29 @@
             </v-card>
           </v-tab-item>
         </v-tabs-items>
+          <div class="text-center">
+            <v-pagination
+            v-model="page"
+            :length="6"
+            v-on:input="next1(page)"
+          ></v-pagination>
+  </div>
       </v-card>
     </v-card>
+    
   </div>
 </template>
 
 <script>
 import AppBar from "../components/AppBar";
+
 export default {
-  components: { AppBar },
+  components: {
+    AppBar,
+  },
   data() {
     return {
+      page: 1,
       userinfo: {
         id: " ",
         avatarurl: "",
@@ -137,7 +149,10 @@ export default {
       this.userinfo.introduction = va["introduction"];
       this.userinfo.username = va["username"];
       this.userinfo.avatarurl = va["avatar-url"];
-    }
+    },
+    next1(page) {
+      alert("First next is clicked! " + page);
+    },
   }
 };
 </script>
