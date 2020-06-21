@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id = "personalPage">
     <app-bar></app-bar>
     <v-card class="mx-auto" max-width="1000">
       <v-img
@@ -7,19 +7,23 @@
         height="200px"
         src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       >
-        <v-card-title>用户邮箱：{{userinfo.email}}</v-card-title>
+        <v-card-title>用户名：{{userinfo.username}}</v-card-title>
       </v-img>
       <v-list-item three-line>
         <v-list-item-content>
-          <v-card-subtitle class="pb-0">用户id：{{userinfo.id}}</v-card-subtitle>
+          <v-card-subtitle class="pb-0">用户简介：{{userinfo.introduction}}</v-card-subtitle>
 
           <v-card-text class="text--primary">
-            <div>用户名：{{userinfo.username}}</div>
+            <div>用户邮箱：{{userinfo.email}}</div>
 
-            <div>用户简介：{{userinfo.introduction}}</div>
+            <div></div>
           </v-card-text>
         </v-list-item-content>
-        <v-list-item-avatar tile size="80" color="blue"></v-list-item-avatar>
+        <v-list-item-avatar tile size="80" color="blue" >
+          <v-img :src = userinfo.avatarurl >
+          </v-img>
+        
+        </v-list-item-avatar>
       </v-list-item>
 
       <v-card-actions>
@@ -32,6 +36,7 @@
       <v-card>
         <v-tabs v-model="tab" background-color="blue" dark show-arrows>
           <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
+          
         </v-tabs>
 
         <v-tabs-items v-model="tab">
@@ -140,7 +145,7 @@ export default {
       this.userinfo.id = va["id"]
       this.userinfo.introduction = va["introduction"]
       this.userinfo.username = va["username"]
-      this.userinfo.avatarurl = va["avatarurl"]
+      this.userinfo.avatarurl = va["avatar-url"]
 
     }
   }
