@@ -54,6 +54,15 @@ export default {
   components: { AppBar },
   data() {
     return {
+      userinfo:
+        {
+          id: " ",
+          avatarurl:"",
+          email:" ",
+          introduction:" ",
+          username:" "
+        }
+      ,
       tab: null,
       items: [
         {
@@ -101,6 +110,37 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    // 获取用户的问题与回答信息
+    // getQA(),
+    // 获取用户信息
+    this.getUserInfo()
+
+  },
+
+  methods:{
+    getQA(){
+      // this.$axios
+      //     .get('', {headers: {"Authorization": localStorage.getItem("token")}})
+      //     .then(res => {
+
+      //       }
+      //     )
+    },
+    getUserInfo(){
+      var va = JSON.parse(sessionStorage.getItem("userInfo"))
+      console.log(sessionStorage.getItem("userInfo"))
+      console.log(va["email"])
+      
+      this.userinfo.email = va["email"]
+      this.userinfo.id = va["id"]
+      this.userinfo.introduction = va["introduction"]
+      this.userinfo.username = va["username"]
+      this.userinfo.avatarurl = va["avatarurl"]
+
+    }
   }
 };
+
 </script>
