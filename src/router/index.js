@@ -7,6 +7,7 @@ import MainPage from '../views/MainPage.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Debug from '../views/Debug.vue'
+import personalPage from '../views/personalPage.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,11 @@ Vue.use(VueRouter)
       path: '/question/:questionId',
       name: 'QuestionDetail',
       component: QuestionDetail
+    },
+    {
+      path: '/personalPage',
+      name: 'personalPage',
+      component: personalPage
     },
     {
       path: '/main',
