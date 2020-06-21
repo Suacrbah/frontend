@@ -79,16 +79,16 @@
             this.res = res.data;
               if (this.res['code'] === 200) {
                 alert("You have successfully logged in!");
+
                 const jwt = res.headers['authorization']
                 const userInfo = res.data.data
-                this.$router.push('/questions');
                 _this.$store.commit("set_token", jwt)
                 _this.$store.commit("set_userInfo", userInfo)
                   //
                   // 获取
                   console.log(_this.$store.getters.getUser)
 
-                  //_this.$router.push("/personalpage")
+                  _this.$router.push("/personalpage")
               } else {
                 alert("Sorry, you have entered wrong info!");
               }
