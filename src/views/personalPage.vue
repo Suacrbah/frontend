@@ -7,16 +7,16 @@
         height="200px"
         src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
       >
-        <v-card-title>Top 10 Australian beaches</v-card-title>
+        <v-card-title>用户邮箱：{{userinfo.email}}</v-card-title>
       </v-img>
       <v-list-item three-line>
         <v-list-item-content>
-          <v-card-subtitle class="pb-0">Number 10</v-card-subtitle>
+          <v-card-subtitle class="pb-0">用户id：{{userinfo.id}}</v-card-subtitle>
 
           <v-card-text class="text--primary">
-            <div>Whitehaven Beach</div>
+            <div>用户名：{{userinfo.username}}</div>
 
-            <div>Whitsunday Island, Whitsunday Islands</div>
+            <div>用户简介：{{userinfo.introduction}}</div>
           </v-card-text>
         </v-list-item-content>
         <v-list-item-avatar tile size="80" color="blue"></v-list-item-avatar>
@@ -57,6 +57,15 @@ export default {
   components: { AppBar },
   data() {
     return {
+      userinfo:
+        {
+          id: " ",
+          avatarurl:"",
+          email:" ",
+          introduction:" ",
+          username:" "
+        }
+      ,
       tab: null,
       items: [
         {
@@ -104,6 +113,37 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    // 获取用户的问题与回答信息
+    // getQA(),
+    // 获取用户信息
+    this.getUserInfo()
+
+  },
+
+  methods:{
+    getQA(){
+      // this.$axios
+      //     .get('', {headers: {"Authorization": localStorage.getItem("token")}})
+      //     .then(res => {
+
+      //       }
+      //     )
+    },
+    getUserInfo(){
+      var va = JSON.parse(sessionStorage.getItem("userInfo"))
+      console.log(sessionStorage.getItem("userInfo"))
+      console.log(va["email"])
+      
+      this.userinfo.email = va["email"]
+      this.userinfo.id = va["id"]
+      this.userinfo.introduction = va["introduction"]
+      this.userinfo.username = va["username"]
+      this.userinfo.avatarurl = va["avatarurl"]
+
+    }
   }
 };
+
 </script>

@@ -78,7 +78,7 @@
         .then(res => {
             this.res = res.data;
               if (this.res['code'] === 200) {
-                alert("You have successfully logged in!");
+                // alert("You have successfully logged in!");
 
                 const jwt = res.headers['authorization']
                 const userInfo = res.data.data
