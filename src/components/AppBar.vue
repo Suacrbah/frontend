@@ -48,8 +48,15 @@
                     flat
                     hide-details
                     solo-inverted
+                    label="搜索"
                     style="max-width: 300px;"
                 />
+                <v-btn
+                        dark
+                        icon
+                >
+                    <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
 
                 <!-- <span class="font-weight-bold">
                     BeHoo
