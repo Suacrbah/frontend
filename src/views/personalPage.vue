@@ -1,5 +1,6 @@
 <template>
   <div>
+    <app-bar></app-bar>
     <v-card
             class="mx-auto"
             max-width="1000"
@@ -52,7 +53,9 @@
 </template>
 
 <script>
+    import AppBar from "../components/AppBar";
     export default {
+        components: {AppBar},
         data () {
 
         },
