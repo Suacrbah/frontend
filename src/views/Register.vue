@@ -100,7 +100,7 @@
     methods: {
       submitForm() {
         if (this.form.validCode === this.res) {
-          this.$axios.post('http://192.168.43.145:8889/registry', this.form);
+          this.$axios.post('/registry', this.form);
           alert("You are successfully registered!");
           this.$router.push('/login');
         } else {
@@ -108,7 +108,7 @@
         }
       },
       sendCode() {
-        this.$axios.get('http://192.168.43.145:8889/registryValid/' + this.form.email)
+        this.$axios.get('/registryValid/' + this.form.email)
         .then(
           res => {
             this.res = res.data['msg'];

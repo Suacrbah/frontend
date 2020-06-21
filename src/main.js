@@ -11,7 +11,9 @@ import 'mavon-editor/dist/css/index.css'
 Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
-Vue.prototype.$axios = axios
+Vue.prototype.$axios = axios.create({
+  baseURL: 'http://192.168.43.145:8889',
+})
 
 new Vue({
   store,
