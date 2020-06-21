@@ -1,31 +1,30 @@
 <template>
-  <div id = "personalPage">
+  <div id="personalPage">
     <app-bar></app-bar>
+
     <v-card class="mx-auto" max-width="1000">
-    <v-card >
-      <v-img
-        class="white--text align-end"
-        height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-      >
-        <v-card-title>用户名：{{userinfo.username}}</v-card-title>
-      </v-img>
-      <v-list-item three-line>
-        <v-list-item-content>
-          <v-card-subtitle class="pb-0">用户简介：{{userinfo.introduction}}</v-card-subtitle>
+      <v-card>
+        <v-img
+          class="white--text align-end"
+          height="200px"
+          src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        >
+          <v-card-title>用户名：{{userinfo.username}}</v-card-title>
+        </v-img>
+        <v-list-item three-line>
+          <v-list-item-content>
+            <v-card-subtitle class="pb-0">用户简介：{{userinfo.introduction}}</v-card-subtitle>
 
-          <v-card-text class="text--primary">
-            <div>用户邮箱：{{userinfo.email}}</div>
+            <v-card-text class="text--primary">
+              <div>用户邮箱：{{userinfo.email}}</div>
 
-            <div></div>
-          </v-card-text>
-        </v-list-item-content>
-        <v-list-item-avatar tile size="80" color="blue" >
-          <v-img :src = userinfo.avatarurl >
-          </v-img>
-        
-        </v-list-item-avatar>
-      </v-list-item>
+              <div></div>
+            </v-card-text>
+          </v-list-item-content>
+          <v-list-item-avatar tile size="80" color="blue">
+            <v-img :src="userinfo.avatarurl"></v-img>
+          </v-list-item-avatar>
+        </v-list-item>
 
         <v-card-actions>
           <v-btn color="orange" text>Share</v-btn>
@@ -37,7 +36,6 @@
       <v-card flat class="mx-auto">
         <v-tabs v-model="tab" background-color="blue" dark show-arrows>
           <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
-          
         </v-tabs>
 
         <v-tabs-items v-model="tab">
@@ -59,15 +57,13 @@ export default {
   components: { AppBar },
   data() {
     return {
-      userinfo:
-        {
-          id: " ",
-          avatarurl:"",
-          email:" ",
-          introduction:" ",
-          username:" "
-        }
-      ,
+      userinfo: {
+        id: " ",
+        avatarurl: "",
+        email: " ",
+        introduction: " ",
+        username: " "
+      },
       tab: null,
       items: [
         {
@@ -120,32 +116,28 @@ export default {
     // 获取用户的问题与回答信息
     // getQA(),
     // 获取用户信息
-    this.getUserInfo()
-
+    this.getUserInfo();
   },
 
-  methods:{
-    getQA(){
+  methods: {
+    getQA() {
       // this.$axios
       //     .get('', {headers: {"Authorization": localStorage.getItem("token")}})
       //     .then(res => {
-
       //       }
       //     )
     },
-    getUserInfo(){
-      var va = JSON.parse(sessionStorage.getItem("userInfo"))
-      console.log(sessionStorage.getItem("userInfo"))
-      console.log(va["email"])
-      
-      this.userinfo.email = va["email"]
-      this.userinfo.id = va["id"]
-      this.userinfo.introduction = va["introduction"]
-      this.userinfo.username = va["username"]
-      this.userinfo.avatarurl = va["avatar-url"]
+    getUserInfo() {
+      var va = JSON.parse(sessionStorage.getItem("userInfo"));
+      console.log(sessionStorage.getItem("userInfo"));
+      console.log(va["email"]);
 
+      this.userinfo.email = va["email"];
+      this.userinfo.id = va["id"];
+      this.userinfo.introduction = va["introduction"];
+      this.userinfo.username = va["username"];
+      this.userinfo.avatarurl = va["avatar-url"];
     }
   }
 };
-
 </script>
