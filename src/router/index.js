@@ -43,6 +43,11 @@ Vue.use(VueRouter)
       component: QuestionDetail
     },
     {
+      path: '/question/:questionId/edit/',
+      name: 'QuestionEdit',
+      component: QuestionEdit
+    },
+    {
       path: '/personalPage',
       name: 'personalPage',
       component: personalPage
@@ -51,11 +56,6 @@ Vue.use(VueRouter)
       path: '/main',
       name: 'Main',
       component: MainPage
-    },
-    {
-      path: '/question/:questionId/edit/',
-      name: 'QuestionEdit',
-      component: QuestionEdit
     },
     {
       path: '/debug',
