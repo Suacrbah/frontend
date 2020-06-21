@@ -71,12 +71,24 @@
     },
     methods: {
       submitForm() {
-        this.$axios.post('http://192.168.43.145:8889/login', this.form)
+
+        const _this = this
+
+         this.$axios.post('http://192.168.43.145:8889/login', this.form)
         .then(res => {
             this.res = res.data;
               if (this.res['code'] === 200) {
-                alert("You have successfully logged in!");
-                this.$router.push('/questions');
+                // alert("You have successfully logged in!");
+
+                const jwt = res.headers['authorization']
+                const userInfo = res.data.data
+                _this.$store.commit("set_token", jwt)
+                _this.$store.commit("set_userInfo", userInfo)
+                  //
+                  // 获取
+                  console.log(_this.$store.getters.getUser)
+
+                  _this.$router.push("/personalpage")
               } else {
                 alert("Sorry, you have entered wrong info!");
               }
