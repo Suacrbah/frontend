@@ -48,7 +48,7 @@
                     hide-details
                     solo-inverted
                     label="搜索"
-                    style="max-width: 300px;"gi
+                    style="max-width: 300px;"
                 />
                 <v-btn
                         dark
