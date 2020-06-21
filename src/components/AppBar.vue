@@ -44,13 +44,18 @@
                 <v-spacer></v-spacer>
 
                 <v-text-field
-                    append-icon="mdi-magnify"
                     flat
                     hide-details
                     solo-inverted
                     label="搜索"
-                    style="max-width: 300px;"
+                    style="max-width: 300px;"gi
                 />
+                <v-btn
+                        dark
+                        icon
+                >
+                    <v-icon>mdi-magnify</v-icon>
+                </v-btn>
                 <v-btn
                         dark
                         icon
