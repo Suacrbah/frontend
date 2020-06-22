@@ -38,8 +38,8 @@ Vue.use(VueRouter)
       component: QuestionEdit
     },
     {
-      path: '/question/:questionId',
-      // path: '/question',
+      // path: '/question/:questionId',
+      path: '/question',
       name: 'QuestionDetail',
       component: QuestionDetail
     },

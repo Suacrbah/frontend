@@ -35,7 +35,7 @@
 
       <v-card flat class="mx-auto">
         <v-tabs v-model="tab" background-color="blue" dark show-arrows>
-          <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
+          <v-tab v-for="item in items" @click="changeToPage(tab)" :key="item.tab">{{ item.tab }}</v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tab">
@@ -119,7 +119,10 @@ export default {
     // getQA(),
     // 获取用户信息
     this.getUserInfo();
-    this.changeToPage(this.tab);
+    this.changeToPage(0);
+    this.changeToPage(1);
+    this.changeToPage(2);
+
   },
 
   methods: {
@@ -153,11 +156,15 @@ export default {
         else if(this.items[id].tab == "收藏") req = "my_collection";
         else if(this.items[id].tab == "回答") req = "my_answer";
         
-        this.$axios.get("/question/"+ req + '?currentPage='+this.items[id].current_page,
+        var pre_req;
+        if(this.items[id].tab == "提问") pre_req = "/question/";
+        else if(this.items[id].tab == "收藏") pre_req = "/collection/";
+        else if(this.items[id].tab == "回答") pre_req = "/answer/";
+        
+        this.$axios.get(pre_req+ req + '/?currentPage='+this.items[id].current_page,
         {
             headers:{
                 "Authorization": localStorage.getItem("token")
-
             }
         }
         ).then(res=>{
