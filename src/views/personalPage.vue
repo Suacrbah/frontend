@@ -143,8 +143,8 @@ export default {
     },
     changeToPage(id){
         const _this=this;console.log(id)
-        alert("Now we're in tab " + this.items[id].tab);
-        console.log('http://192.168.43.145:8889/question/my_question?currentPage='+this.items[id].current_page);
+        // alert("Now we're in tab " + this.items[id].tab);
+        console.log('/question/my_question?currentPage='+this.items[id].current_page);
         this.$axios.get('/question/my_question?currentPage='+this.items[id].current_page,
         {
             headers:{
