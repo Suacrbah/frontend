@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Questions from '../views/Questions.vue'
 import QuestionEdit from '../views/QuestionEdit.vue'
 import QuestionDetail from '../views/QuestionDetail.vue'
 import MainPage from '../views/MainPage.vue'
@@ -26,11 +25,6 @@ Vue.use(VueRouter)
       path: '/register',
       name: 'Register',
       component: Register
-    },
-    {
-      path: '/questions',
-      name: 'Questions',
-      component: Questions
     },
     {
       path: '/question/add',
