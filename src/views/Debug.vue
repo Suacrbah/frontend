@@ -1,20 +1,19 @@
 <template>
-  <div class="text-center">
-    <v-pagination
-      v-model="page"
-      :length="4"
-      prev-icon="mdi-menu-left"
-      next-icon="mdi-menu-right"
-    ></v-pagination>
+  <!-- 笔记本应用 -->
+  <div id="notebook">
+    <!-- 主面板 -->
+    <section class="main">
+      <textarea v-model="content"></textarea>
+    </section>
   </div>
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        page: 1,
-      }
-    },
+export default {
+  data() {
+    return {
+      content: "This is a note."
+    };
   }
+};
 </script>
