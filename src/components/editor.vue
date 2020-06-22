@@ -17,7 +17,7 @@
                 formdata.append('file', $file)
 
                 var _this = this;
-                this.$axios.post('http://localhost:8889/answer/image/upload', formdata,{
+                this.$axios.post('/answer/image/upload', formdata,{
                     headers: {
                         "Authorization": localStorage.getItem("token")
                     }
