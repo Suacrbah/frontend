@@ -132,8 +132,8 @@ export default {
     },
     getUserInfo() {
       var va = JSON.parse(sessionStorage.getItem("userInfo"));
-      console.log(sessionStorage.getItem("userInfo"));
-      console.log(va["email"]);
+      // console.log(sessionStorage.getItem("userInfo"));
+      // console.log(va["email"]);
 
       this.userinfo.email = va["email"];
       this.userinfo.id = va["id"];
@@ -142,10 +142,18 @@ export default {
       this.userinfo.avatarurl = va["avatar-url"];
     },
     changeToPage(id){
-        const _this=this;console.log(id)
-        alert("Now we're in tab " + this.items[id].tab);
-        console.log('http://192.168.43.145:8889/question/my_question?currentPage='+this.items[id].current_page);
-        this.$axios.get('/question/my_question?currentPage='+this.items[id].current_page,
+        const _this=this;
+        // console.log(id)
+        // alert("Now we're in tab " + this.items[id].tab);
+        // console.log('/question/my_question?currentPage='+this.items[id].current_page);
+        // this.$axios.get('/question/my_question?currentPage='+this.items[id].current_page,
+        
+        var req;
+        if(this.items[id].tab == "提问") req = "my_question";
+        else if(this.items[id].tab == "收藏") req = "my_collection";
+        else if(this.items[id].tab == "回答") req = "my_answer";
+        
+        this.$axios.get("/question/"+ req + '?currentPage='+this.items[id].current_page,
         {
             headers:{
                 "Authorization": localStorage.getItem("token")
