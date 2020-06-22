@@ -12,7 +12,8 @@
     <v-card v-for="answer in answer_list_debug" :key="answer.id">
       <!-- //回答作者信息 -->
       <v-card>
-        <v-list>
+        <v-list three-line>
+          <v-list-item>
           <v-list-item-avatar>
             <v-img :src="answer.avatar_url"></v-img>
           </v-list-item-avatar>
@@ -21,6 +22,7 @@
             <v-list-item-subtitle v-text="answer.introduction"></v-list-item-subtitle>
             <v-list-item-subtitle v-text="answer.like_count + '人赞同该回答'"></v-list-item-subtitle>
           </v-list-item-content>
+          </v-list-item>
         </v-list>
       </v-card>
 
@@ -28,9 +30,9 @@
       <v-card class="my-1">
         <p v-html="answer.content"></p>
       </v-card>
-
+      <comment />
       <!-- //点赞，评论，收藏 -->
-      <v-card>
+      <!-- <v-card>
         <v-container fluid class="pa-0">
           <v-row>
             <v-col>
@@ -54,7 +56,7 @@
           </v-row>
         </v-container>
         <comment />
-      </v-card>
+      </v-card>-->
     </v-card>
   </v-card>
 </template>
@@ -94,7 +96,7 @@ export default {
         }
       ]
     };
-  }
+  },
 };
 </script>
 

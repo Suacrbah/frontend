@@ -3,9 +3,15 @@
     <v-expansion-panels v-model="panel" multiple>
       <v-expansion-panel>
         <v-card-actions text max-width="200px" class="mx-auto">
-          <v-btn text>点赞</v-btn>
-          <v-btn text>收藏</v-btn>
-          <v-expansion-panel-header expand-icon>评论</v-expansion-panel-header>
+          <v-btn icon color="deep-orange">
+            <v-icon>mdi-thumb-up</v-icon>
+            <span>点赞</span>
+          </v-btn>
+          <v-btn icon color="indigo">
+            <v-icon>mdi-star</v-icon>
+            <span>收藏</span>
+          </v-btn>
+          <v-expansion-panel-header expand-icon><v-icon>mdi-message-text</v-icon>评论</v-expansion-panel-header>
         </v-card-actions>
         <v-expansion-panel-content>
           <v-list>

@@ -33,6 +33,7 @@ Vue.use(VueRouter)
     },
     {
       path: '/question/:questionId',
+      // path:'/question',
       name: 'QuestionDetail',
       component: QuestionDetail
     },
