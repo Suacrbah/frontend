@@ -35,17 +35,17 @@
 
       <v-card flat class="mx-auto">
         <v-tabs v-model="tab" background-color="blue" dark show-arrows>
-          <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
+          <v-tab v-for="item in items" @click="changeToPage(tab)" :key="item.tab">{{ item.tab }}</v-tab>
         </v-tabs>
 
         <v-tabs-items v-model="tab">
-          <v-tab-item v-for="item in items" :key="item.tab">
+          <v-tab-item v-for="item  in items" :key="item.tab">
             <v-card width="100%" v-for="content in item.contents" :key="content">
               <v-card-title>{{ content.title }}</v-card-title>
               <v-card-text>{{ content.content }}</v-card-text>
             </v-card>
-            <v-pagination v-model="item.current_page" :length=item.total_page v-on:next="changeToPage()" 
-            v-on:input="changeToPage()"></v-pagination>
+            <v-pagination v-model="item.current_page" :length=item.total_page v-on:next="changeToPage(tab)" 
+            v-on:input="changeToPage(tab)"></v-pagination>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
@@ -73,7 +73,7 @@ export default {
         introduction: " ",
         username: " ",
       },
-      tab: null,
+      tab: 0,
       items: [
         {
           tab: "提问",
@@ -83,6 +83,8 @@ export default {
         },
         {
           tab: "收藏",
+          total_page: 1,
+          current_page:1,
           contents: [
             {
               question: "问题1",
@@ -96,6 +98,8 @@ export default {
         },
         {
           tab: "回答",
+          total_page: 1,
+          current_page:1,
           contents: [
             {
               question: "问题1",
@@ -105,10 +109,6 @@ export default {
               question: "问题2",
               answer: "简介"
             },
-            {
-              question: "问题3",
-              answer: "简介"
-            }
           ]
         }
       ]
@@ -119,7 +119,10 @@ export default {
     // getQA(),
     // 获取用户信息
     this.getUserInfo();
-    this.changeToPage();
+    this.changeToPage(0);
+    this.changeToPage(1);
+    this.changeToPage(2);
+
   },
 
   methods: {
@@ -132,8 +135,8 @@ export default {
     },
     getUserInfo() {
       var va = JSON.parse(sessionStorage.getItem("userInfo"));
-      console.log(sessionStorage.getItem("userInfo"));
-      console.log(va["email"]);
+      // console.log(sessionStorage.getItem("userInfo"));
+      // console.log(va["email"]);
 
       this.userinfo.email = va["email"];
       this.userinfo.id = va["id"];
@@ -141,22 +144,35 @@ export default {
       this.userinfo.username = va["username"];
       this.userinfo.avatarurl = va["avatar-url"];
     },
-    changeToPage(){
+    changeToPage(id){
         const _this=this;
-        console.log('http://192.168.43.145:8889/question/my_question?currentPage='+this.items[0].current_page);
-        this.$axios.get('http://192.168.43.145:8889/question/my_question?currentPage='+this.items[0].current_page,
+        // console.log(id)
+        // alert("Now we're in tab " + this.items[id].tab);
+        // console.log('/question/my_question?currentPage='+this.items[id].current_page);
+        // this.$axios.get('/question/my_question?currentPage='+this.items[id].current_page,
+        
+        var req;
+        if(this.items[id].tab == "提问") req = "my_question";
+        else if(this.items[id].tab == "收藏") req = "my_collection";
+        else if(this.items[id].tab == "回答") req = "my_answer";
+        
+        var pre_req;
+        if(this.items[id].tab == "提问") pre_req = "/question/";
+        else if(this.items[id].tab == "收藏") pre_req = "/collection/";
+        else if(this.items[id].tab == "回答") pre_req = "/answer/";
+        
+        this.$axios.get(pre_req+ req + '/?currentPage='+this.items[id].current_page,
         {
             headers:{
                 "Authorization": localStorage.getItem("token")
-
             }
         }
         ).then(res=>{
             console.log(res.data);
             
-            _this.items[0].total_page = res.data.data.pages;
-            _this.items[0].current_page = res.data.data.current;
-            _this.items[0].contents = res.data.data.records;
+            _this.items[id].total_page = res.data.data.pages;
+            _this.items[id].current_page = res.data.data.current;
+            _this.items[id].contents = res.data.data.records;
         }).catch(e => {this.errors.push(e);});
     }
   }
