@@ -47,8 +47,9 @@
             solo-inverted
             label="搜索"
             style="max-width: 300px;"
+            v-model="q"
         />
-        <v-btn dark icon>
+        <v-btn dark icon @click="search()">
             <v-icon>mdi-magnify</v-icon>
         </v-btn>
         <v-menu bottom left :offset-y="true">
@@ -84,8 +85,14 @@ export default {
         { title: 'Click Me' },
         { title: '退出登录' },
       ],
+      
     }
   },
+  props:{
+    q:String,
+
+  },
+
   methods: {
     toMain() {
       this.$router.push("/main");
@@ -96,6 +103,14 @@ export default {
       } else if (i == 3) {
         this.$router.push("/login");
       }
+    },
+
+    search(){
+
+      let data = {
+        query_key_word: this.q,
+      };
+      this.$emit('change_key_word', data); 
     }
   }
 }

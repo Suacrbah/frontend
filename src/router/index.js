@@ -8,6 +8,7 @@ import Register from '../views/Register.vue'
 import Debug from '../views/Debug.vue'
 import Debug2 from '../views/Debug2.vue'
 import personalPage from '../views/personalPage.vue'
+import searchPage from '../views/searchPage.vue'
 
 Vue.use(VueRouter)
 
@@ -52,6 +53,11 @@ Vue.use(VueRouter)
       path: '/main',
       name: 'Main',
       component: MainPage
+    },
+    {
+      path: '/search/:key_word',
+      name : 'Search',
+      component: searchPage
     },
     {
       path: '/debug',
