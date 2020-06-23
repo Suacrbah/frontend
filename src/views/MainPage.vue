@@ -20,8 +20,10 @@
         <v-tab-item>
           <v-card width="100%">
             <v-card v-for="question in questions_list" :key="question.id">
-              <v-card-title>{{ question.title }}</v-card-title>
-              <v-card-text>{{ question.content }}</v-card-text>
+              <router-link :to="'question/' + question.id" tag="v-btn">
+                <v-card-title>{{ question.title }}</v-card-title>
+                <v-card-text>{{ question.content }}</v-card-text>
+              </router-link>
             </v-card>
 
             <v-progress-linear
@@ -55,7 +57,7 @@ export default {
       tabs: null,
 
       questions_list: [], //存放主页的问题列表
-      new_question: [],       //存放新请求的问题列表
+      new_question: [], //存放新请求的问题列表
 
       show_progress: false, //控制是否显示上拉刷新进度条
       page_num: 1, //当前刷新出的页面数
@@ -152,14 +154,11 @@ export default {
       //   page_num * this.num_per_page
       // );
       this.$axios
-        .get(
-          "/question?currentPage=" + page_num,
-          {
-            headers: {
-              Authorization: localStorage.getItem("token")
-            }
+        .get("/question?currentPage=" + page_num, {
+          headers: {
+            Authorization: localStorage.getItem("token")
           }
-        )
+        })
         .then(res => {
           this.new_question = res.data.data.records;
           this.questions_list = this.questions_list.concat(this.new_question);
