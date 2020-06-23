@@ -7,6 +7,7 @@ import MainPage from '../views/MainPage.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Debug from '../views/Debug.vue'
+import Debug2 from '../views/Debug2.vue'
 import personalPage from '../views/personalPage.vue'
 
 Vue.use(VueRouter)
@@ -61,6 +62,11 @@ Vue.use(VueRouter)
       path: '/debug',
       name: 'Debug',
       component: Debug
+    },
+    {
+      path: '/debug2',
+      name: 'Debug2',
+      component: Debug2
     },
   ]
 
