@@ -6,9 +6,10 @@
     </div>
 
     <v-card class="my-1">
-      <span>347个回答</span>
+      <span>{{ total_answer_num }}</span>
     </v-card>
 
+    <!-- //回答列表 -->
     <v-card v-for="(answer, index) in answer_list" :key="answer.id">
       <!-- //回答作者信息 -->
       <v-card :id="'ans'+index">
@@ -42,6 +43,7 @@
       <!-- //点赞，评论，收藏 -->
       <comment />
     </v-card>
+    <div id="bottom"></div>
   </v-card>
 </template>
 
@@ -61,6 +63,7 @@ export default {
       page_num: 1, //当前刷新出的回答分页数
       num_per_page: 10, //每页显示的回答数
       total_page_num: 0, //总回答分页数
+      total_answer_num: 0,
 
       //静态数据，用于测试
       answer_list_debug: [
@@ -91,7 +94,11 @@ export default {
   },
   mounted() {
     this.requestQuestion();
+    //初始化回答列表
     this.requestAnswer(this.page_num);
+
+    // 增加监听页面滑动事件
+    window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
     requestQuestion() {
@@ -105,7 +112,7 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.question = res.data.data;
         })
         .catch(e => {
@@ -123,14 +130,13 @@ export default {
           }
         )
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           this.total_page_num = res.data.data.pages;
           this.num_per_page = res.data.data.size;
+          this.total_answer_num = res.data.data.total;
 
           this.new_answer = res.data.data.records;
           this.answer_list = this.answer_list.concat(this.new_answer);
-
-          console.log(this.answer_list[1]);
         })
         .catch(e => {
           this.errors.push(e);
@@ -138,14 +144,39 @@ export default {
     },
     nextAnswer(index) {
       let target = "#ans" + index;
+      if (target == "#ans" + this.answer_list.length) {
+        target = "#bottom";
+      }
       let options = {};
 
-      console.log(target);
       this.$vuetify.goTo(target, options);
       // $vuetify.goTo(target, options);
     },
-    gotoHello(){
-      this.$vuetify.goTo('#hello', {});
+    gotoHello() {
+      this.$vuetify.goTo("#hello", {});
+    },
+    handleScroll() {
+      //变量scrollTop是滚动条滚动时,距离顶部的距离
+      let scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+      //变量windowHeight是可视区的高度
+      let windowHeight =
+        document.documentElement.clientHeight || document.body.clientHeight;
+      //变量scrollHeight是滚动条的总高度
+      let scrollHeight =
+        document.documentElement.scrollHeight || document.body.scrollHeight;
+
+      if (scrollTop + windowHeight >= scrollHeight - 10) {
+        if (this.page_num < this.total_page_num) {
+          // this.show_progress = true;
+          this.page_num++;
+          this.requestAnswer(this.page_num);
+        } else {
+          // this.show_progress = false;
+        }
+      } else {
+        // this.show_progress = false;
+      }
     }
   }
 };

@@ -107,7 +107,7 @@ export default {
       ]
     };
   },
-  created() {
+  mounted() {
     //页面创建时调用
     //-----------debug------------
     //扩充questions_list_tmp到50个元素
@@ -138,10 +138,10 @@ export default {
         document.documentElement.scrollHeight || document.body.scrollHeight;
 
       if (scrollTop + windowHeight >= scrollHeight - 10) {
-        if (this.page_num <= this.total_page_num) {
+        if (this.page_num < this.total_page_num) {
           this.show_progress = true;
-          this.requestQuestion(this.page_num);
           this.page_num++;
+          this.requestQuestion(this.page_num);
         } else {
           this.show_progress = false;
         }
