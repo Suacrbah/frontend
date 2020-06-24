@@ -153,7 +153,6 @@ export default {
     },
     thumb_up() {
       const _this = this;
-
       this.$axios.get('/like_answer/' + this.id, {
           headers: {
               "Authorization": localStorage.getItem("token") // localStorage.getItem("token")
@@ -165,8 +164,7 @@ export default {
     },
     collection() {
       const _this = this;
-
-      this.$axios.get('/like_answer/' + this.id, {
+      this.$axios.get('/collection/' + this.id, {
           headers: {
               "Authorization": localStorage.getItem("token") // localStorage.getItem("token")
           }
