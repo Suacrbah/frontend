@@ -145,35 +145,35 @@ export default {
       this.userinfo.avatarurl = va["avatar-url"];
     },
     changeToPage(id){
-        const _this=this;
-        // console.log(id)
-        // alert("Now we're in tab " + this.items[id].tab);
-        // console.log('/question/my_question?currentPage='+this.items[id].current_page);
-        // this.$axios.get('/question/my_question?currentPage='+this.items[id].current_page,
-        
-        var req;
-        if(this.items[id].tab == "提问") req = "my_question";
-        else if(this.items[id].tab == "收藏") req = "my_collection";
-        else if(this.items[id].tab == "回答") req = "my_answer";
-        
-        var pre_req;
-        if(this.items[id].tab == "提问") pre_req = "/question/";
-        else if(this.items[id].tab == "收藏") pre_req = "/collection/";
-        else if(this.items[id].tab == "回答") pre_req = "/answer/";
-        
-        this.$axios.get(pre_req+ req + '/?currentPage='+this.items[id].current_page,
-        {
-            headers:{
-                "Authorization": localStorage.getItem("token")
-            }
-        }
-        ).then(res=>{
-            console.log(res.data);
-            
-            _this.items[id].total_page = res.data.data.pages;
-            _this.items[id].current_page = res.data.data.current;
-            _this.items[id].contents = res.data.data.records;
-        }).catch(e => {this.errors.push(e);});
+      const _this=this;
+      // console.log(id)
+      // alert("Now we're in tab " + this.items[id].tab);
+      // console.log('/question/my_question?currentPage='+this.items[id].current_page);
+      // this.$axios.get('/question/my_question?currentPage='+this.items[id].current_page,
+      
+      var req;
+      if(this.items[id].tab == "提问") req = "my_question";
+      else if(this.items[id].tab == "收藏") req = "my_collection";
+      else if(this.items[id].tab == "回答") req = "my_answer";
+      
+      var pre_req;
+      if(this.items[id].tab == "提问") pre_req = "/question/";
+      else if(this.items[id].tab == "收藏") pre_req = "/collection/";
+      else if(this.items[id].tab == "回答") pre_req = "/answer/";
+      
+      this.$axios.get(pre_req+ req + '/?currentPage='+this.items[id].current_page,
+      {
+          headers:{
+              "Authorization": localStorage.getItem("token")
+          }
+      }
+      ).then(res=>{
+          console.log(res.data);
+          
+          _this.items[id].total_page = res.data.data.pages;
+          _this.items[id].current_page = res.data.data.current;
+          _this.items[id].contents = res.data.data.records;
+      }).catch(e => {this.errors.push(e);});
     }
   }
 };
