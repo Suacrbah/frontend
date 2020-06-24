@@ -1,20 +1,19 @@
 <template>
-  <v-card max-width="1000px" class="mx-auto">
+  <v-card max-width="10000px" class="mx-auto">
     <v-expansion-panels v-model="panel" multiple>
       <v-expansion-panel>
-        <v-card-actions text max-width="400px" class="mx-auto">
-          <v-btn @click="thumb_up()" icon color="deep-orange">
-            <v-icon>mdi-thumb-up</v-icon>
-            <span>点赞</span>
-          </v-btn>
-          <v-btn icon color="indigo">
-            <v-icon>mdi-star</v-icon>
-            <span>收藏</span>
-          </v-btn>
+        <v-btn @click="thumb_up()" class="ma-2" color="yellow lighten-1">
+          <v-icon>mdi-thumb-up</v-icon>点赞
+        </v-btn>
+        <v-btn @click="collection()" color="green accent-3">
+          <v-icon>mdi-star</v-icon>收藏
+        </v-btn>
+        <v-btn class="mx-2" max-width="90px" color="blue lighten-3">
           <v-expansion-panel-header expand-icon>
-            <v-icon>mdi-message-text</v-icon>
+            <v-icon>mdi-message-text</v-icon>评论
           </v-expansion-panel-header>
-        </v-card-actions>
+        </v-btn>
+
         <v-expansion-panel-content>
           <v-list>
             <v-list-group v-for="item in items" :key="item.title" v-model="item.active" no-action>
@@ -41,7 +40,7 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <v-snackbar :timeout="2000" v-model="snackbar" top color="success">已赞同</v-snackbar>
+    <v-snackbar :timeout="2000" v-model="snackbar" top color="success">{{ msg }}</v-snackbar>
   </v-card>
 </template>
 
@@ -51,6 +50,7 @@ export default {
   data() {
     return {
       snackbar: false,
+      msg: "",
       panel: [],
       items: [
         {
@@ -146,7 +146,36 @@ export default {
       this.panel = [];
     },
     thumb_up() {
-      this.snackbar = true;
+      const _this = this;
+      this.$axios
+        .get("/like_answer/" + this.id, {
+          headers: {
+            Authorization: localStorage.getItem("token") // localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          _this.snackbar = true;
+          _this.msg = res.data.msg;
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    },
+    collection() {
+      const _this = this;
+      this.$axios
+        .get("/collection/" + this.id, {
+          headers: {
+            Authorization: localStorage.getItem("token") // localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          _this.snackbar = true;
+          _this.msg = res.data.msg;
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
     }
   }
 };
