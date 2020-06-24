@@ -41,7 +41,7 @@
         <div v-html="answer.content"></div>
       </v-card>
       <!-- //点赞，评论，收藏 -->
-      <comment />
+      <comment v-bind:id="answer.id"/>
     </v-card>
     <div id="bottom"></div>
   </v-card>

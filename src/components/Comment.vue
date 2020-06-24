@@ -2,8 +2,8 @@
   <v-card max-width="1000px" class="mx-auto">
     <v-expansion-panels v-model="panel" multiple>
       <v-expansion-panel>
-        <v-card-actions text max-width="200px" class="mx-auto">
-          <v-btn icon color="deep-orange">
+        <v-card-actions text max-width="400px" class="mx-auto">
+          <v-btn @click="thumb_up()" icon color="deep-orange">
             <v-icon>mdi-thumb-up</v-icon>
             <span>点赞</span>
           </v-btn>
@@ -38,13 +38,24 @@
         </v-expansion-panel-content>
       </v-expansion-panel>
     </v-expansion-panels>
+
+    <v-snackbar
+      :timeout="2000"
+      v-model="snackbar"
+      top
+      color="success"
+    >
+      已赞同
+    </v-snackbar>
   </v-card>
 </template>
 
 <script>
 export default {
+  props: ['id'],
   data() {
     return {
+      snackbar: false,
       panel: [],
       items: [
         {
@@ -138,6 +149,9 @@ export default {
     // Reset the panel
     none() {
       this.panel = [];
+    },
+    thumb_up() {
+      this.snackbar = true;
     }
   }
 };
