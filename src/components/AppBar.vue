@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar bottom flat  app dark class="primary">
+  <v-app-bar flat  app dark class="primary">
     <v-container class="mx-auto py-0">
       <v-row align="center"> 
         <v-img
