@@ -2,33 +2,42 @@
   <v-card class="mx-auto" max-width="1000">
     <!-- //问题 -->
     <div>
-      <ques-des></ques-des>
+      <ques-des v-bind:question="question"></ques-des>
     </div>
 
     <v-card class="my-1">
       <span>347个回答</span>
     </v-card>
 
-    <v-card v-for="answer in answer_list_debug" :key="answer.id">
+    <v-card v-for="(answer, index) in answer_list" :key="answer.id">
       <!-- //回答作者信息 -->
-      <v-card>
+      <v-card :id="'ans'+index">
         <v-list three-line>
           <v-list-item>
             <v-list-item-avatar>
-              <v-img :src="answer.avatar_url"></v-img>
+              <v-img :src="answer.avatarUrl"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title v-text="answer.username"></v-list-item-title>
               <v-list-item-subtitle v-text="answer.introduction"></v-list-item-subtitle>
-              <v-list-item-subtitle v-text="answer.like_count + '人赞同该回答'"></v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-text="answer.likeCount + '人赞同该回答，' + answer.collectCount + '人收藏该回答'"
+              ></v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
         </v-list>
       </v-card>
 
+      <!-- //下一个回答按钮 -->
+      <v-card>
+        <v-btn dark fab top right color="white" @click="nextAnswer(index+1)">
+          <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon>
+        </v-btn>
+      </v-card>
+
       <!-- //回答内容 -->
       <v-card class="my-1">
-        <p v-html="answer.content"></p>
+        <div v-html="answer.content"></div>
       </v-card>
       <!-- //点赞，评论，收藏 -->
       <comment />
@@ -45,6 +54,14 @@ export default {
   data() {
     return {
       name: "QuestionDetail",
+
+      questionId: -1,
+      question: {}, //问题完整内容（包含用户头像等信息）
+      answer_list: [], //回答列表
+      page_num: 1, //当前刷新出的回答分页数
+      num_per_page: 10, //每页显示的回答数
+      total_page_num: 0, //总回答分页数
+
       //静态数据，用于测试
       answer_list_debug: [
         {
@@ -71,6 +88,65 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    this.requestQuestion();
+    this.requestAnswer(this.page_num);
+  },
+  methods: {
+    requestQuestion() {
+      this.questionId = this.$route.params["questionId"];
+      // console.log(this.questionId);
+
+      this.$axios
+        .get("/question/" + this.questionId, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          console.log(res.data);
+          this.question = res.data.data;
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    },
+    requestAnswer(page_num) {
+      this.$axios
+        .get(
+          "/question/" + this.questionId + "/answers?currentPage=" + page_num,
+          {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          }
+        )
+        .then(res => {
+          console.log(res.data);
+          this.total_page_num = res.data.data.pages;
+          this.num_per_page = res.data.data.size;
+
+          this.new_answer = res.data.data.records;
+          this.answer_list = this.answer_list.concat(this.new_answer);
+
+          console.log(this.answer_list[1]);
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    },
+    nextAnswer(index) {
+      let target = "#ans" + index;
+      let options = {};
+
+      console.log(target);
+      this.$vuetify.goTo(target, options);
+      // $vuetify.goTo(target, options);
+    },
+    gotoHello(){
+      this.$vuetify.goTo('#hello', {});
+    }
   }
 };
 </script>
