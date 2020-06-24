@@ -51,7 +51,7 @@
 export default {
   components: {
     QuesDes: () => import("@/components/questionDes"),
-    Comment: () => import("@/components/Comment")
+    Comment: () => import("@/components/Comment"),
   },
   data() {
     return {
@@ -130,7 +130,7 @@ export default {
           }
         )
         .then(res => {
-          // console.log(res.data);
+          console.log(res.data);
           this.total_page_num = res.data.data.pages;
           this.num_per_page = res.data.data.size;
           this.total_answer_num = res.data.data.total;

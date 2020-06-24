@@ -12,7 +12,7 @@ Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios.create({
-  baseURL: 'http://192.168.43.233:8889',
+  baseURL: 'http://192.168.43.145:8889',
   // baseURL: 'http://192.168.137.93:8889',
 })
 

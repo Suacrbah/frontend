@@ -11,7 +11,9 @@
             <v-icon>mdi-star</v-icon>
             <span>收藏</span>
           </v-btn>
-          <v-expansion-panel-header expand-icon><v-icon>mdi-message-text</v-icon>评论</v-expansion-panel-header>
+          <v-expansion-panel-header expand-icon>
+            <v-icon>mdi-message-text</v-icon>
+          </v-expansion-panel-header>
         </v-card-actions>
         <v-expansion-panel-content>
           <v-list>
@@ -39,20 +41,13 @@
       </v-expansion-panel>
     </v-expansion-panels>
 
-    <v-snackbar
-      :timeout="2000"
-      v-model="snackbar"
-      top
-      color="success"
-    >
-      已赞同
-    </v-snackbar>
+    <v-snackbar :timeout="2000" v-model="snackbar" top color="success">已赞同</v-snackbar>
   </v-card>
 </template>
 
 <script>
 export default {
-  props: ['id'],
+  props: ["id"],
   data() {
     return {
       snackbar: false,
