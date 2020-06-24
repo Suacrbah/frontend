@@ -25,7 +25,7 @@
 
     <v-card-actions>
       <v-btn>关注问题</v-btn>
-      <v-btn>写回答</v-btn>
+      <v-btn @click="writeAnswer()">写回答</v-btn>
       <v-btn>邀请回答</v-btn>
     </v-card-actions>
   </v-card>
@@ -37,20 +37,6 @@ export default {
   props: ["question"],
   data() {
     return {
-      title: "Question Title",
-      longText: `Brown skin girl
-            Your skin just like pearls
-            The best thing in the world
-            Never trade you for anybody else
-            Singin' brown skin girl
-            Your skin just like pearls
-            The best thing in the world
-            I never trade you for anybody else, singin'
-            She said she really grew up poor like me
-            yeah
-            So while I may not pretty boy, your heart is amiss
-            Play it like a villain 'cause she caught in a wave
-            Tonight I am walkin' away`,
       readMoreActivated: false
     };
   },
@@ -64,17 +50,10 @@ export default {
     },
     disableReadMore() {
       this.readMoreActivated = false;
+    },
+    writeAnswer() {
+      this.$router.push("/question/"+ this.question.id +"/edit");
     }
-    // getQuInfo(){
-    //     const  _this = this;
-    //     this.$axios
-    //         .get(''+)
-    //         .then(res => {
-    //           _this.title = res.data;
-    //           _this.longText = res.data;
-    //         })
-    //     .catch(e => {this.errors.push(e)});
-    // },
   }
 };
 </script>

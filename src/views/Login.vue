@@ -1,25 +1,11 @@
 <template>
   <v-app id="inspire">
     <v-main>
-      <v-container
-        class="fill-height"
-        fluid
-      >
-        <v-row
-          align="center"
-          justify="center"
-        >
-          <v-col
-            cols="12"
-            sm="8"
-            md="4"
-          >
-            <v-card class="elevation-12" >
-              <v-toolbar
-                color="primary"
-                dark
-                flat
-              >
+      <v-container class="fill-height" fluid>
+        <v-row align="center" justify="center">
+          <v-col cols="12" sm="8" md="4">
+            <v-card class="elevation-12">
+              <v-toolbar color="primary" dark flat>
                 <v-toolbar-title>Login form</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
@@ -57,45 +43,46 @@
 </template>
 
 <script>
-  export default {
-    sname: "Login",
-    data() {
-      return {
-        errors: [],
-        form: {
-          username: '',
-          hashedPassword: '',
-        },
-        res: '',
-      }
-    },
-    methods: {
-      submitForm() {
-
-        const _this = this
-
-         this.$axios.post('/login', this.form)
-        .then(res => {
-            this.res = res.data;
-              if (this.res['code'] === 200) {
-                // alert("You have successfully logged in!");
-
-                const jwt = res.headers['authorization']
-                const userInfo = res.data.data
-                _this.$store.commit("set_token", jwt)
-                _this.$store.commit("set_userInfo", userInfo)
-                  //
-                  // 获取
-                  console.log(_this.$store.getters.getUser)
-
-                  _this.$router.push("/personalpage")
-              } else {
-                alert("Sorry, you have entered wrong info!");
-              }
-          }
-        )
-        .catch(e => { this.errors.push(e); });
+export default {
+  sname: "Login",
+  data() {
+    return {
+      errors: [],
+      form: {
+        username: "",
+        hashedPassword: ""
       },
-    },
+      res: ""
+    };
+  },
+  methods: {
+    submitForm() {
+      const _this = this;
+
+      this.$axios
+        .post("/login", this.form)
+        .then(res => {
+          this.res = res.data;
+          if (this.res["code"] === 200) {
+            // alert("You have successfully logged in!");
+
+            const jwt = res.headers["authorization"];
+            const userInfo = res.data.data;
+            _this.$store.commit("set_token", jwt);
+            _this.$store.commit("set_userInfo", userInfo);
+            //
+            // 获取
+            console.log(_this.$store.getters.getUser);
+
+            _this.$router.push("/personalpage");
+          } else {
+            alert("Sorry, you have entered wrong info!");
+          }
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    }
   }
+};
 </script>

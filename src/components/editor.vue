@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <v-card>
     <mavon-editor @imgAdd="$imgAdd" ref="md" @change="changeText" />
 
-    <button @click="submit">Submit</button>
-  </div>
+    <v-btn @click="submit">Submit</v-btn>
+  </v-card>
 </template>
 
 <script>
@@ -14,8 +14,18 @@ export default {
       img_file: {},
       Text: "",
       Text_html: "",
-      answer_id: 0
+      answer_id: 0,
+
+      question_id: 0,
     };
+  },
+  mounted() {
+    // console.log(this.$router.params);
+    // console.log(this.$router.path);
+    // console.log(window.location.href);
+    var array = window.location.href.split('/');
+    this.question_id = array[array.length-2];
+    console.log(this.question_id);
   },
   methods: {
     $imgAdd(pos, $file) {
@@ -34,6 +44,7 @@ export default {
     },
 
     submit() {
+      
       let formdata = new FormData();
 
       for (var _img in this.img_file) {
@@ -48,7 +59,7 @@ export default {
       console.log(arr);
       console.log(arr.length);
       if (arr.length > 0) {
-        console.log("准备发送图片");
+        // console.log("准备发送图片");
         this.$axios
           .post("/answer/image/upload", formdata, {
             headers: {
@@ -69,7 +80,7 @@ export default {
             let formdata2 = new FormData();
             formdata2.append("content", this.Text_html);
             this.$axios
-              .post("/answer/add/1", formdata2, {
+              .post("/answer/add/" + this.question_id, formdata2, {
                 headers: {
                   Authorization: localStorage.getItem("token")
                 }
@@ -88,7 +99,7 @@ export default {
         let formdata2 = new FormData();
         formdata2.append("content", this.Text_html);
         this.$axios
-          .post("/answer/add/1", formdata2, {
+          .post("/answer/add/" + this.question_id, formdata2, {
             headers: {
               Authorization: localStorage.getItem("token")
             }
@@ -100,6 +111,7 @@ export default {
             this.errors.push(e);
           });
       }
+      this.$router.replace("/question/"+ this.question_id);
     }
   }
 };
