@@ -18,56 +18,42 @@
         <v-card-title>评论</v-card-title>
         <v-divider></v-divider>
         <v-card-text style="height: 300px;">
-          <!-- <v-radio-group v-model="dialogm1" column>
-            <v-radio label="Bahamas, The" value="bahamas"></v-radio>
-            <v-radio label="Bahrain" value="bahrain"></v-radio>
-            <v-radio label="Bangladesh" value="bangladesh"></v-radio>
-            <v-radio label="Barbados" value="barbados"></v-radio>
-            <v-radio label="Belarus" value="belarus"></v-radio>
-            <v-radio label="Belgium" value="belgium"></v-radio>
-            <v-radio label="Belize" value="belize"></v-radio>
-            <v-radio label="Benin" value="benin"></v-radio>
-            <v-radio label="Bhutan" value="bhutan"></v-radio>
-            <v-radio label="Bolivia" value="bolivia"></v-radio>
-            <v-radio label="Bosnia and Herzegovina" value="bosnia"></v-radio>
-            <v-radio label="Botswana" value="botswana"></v-radio>
-            <v-radio label="Brazil" value="brazil"></v-radio>
-            <v-radio label="Brunei" value="brunei"></v-radio>
-            <v-radio label="Bulgaria" value="bulgaria"></v-radio>
-            <v-radio label="Burkina Faso" value="burkina"></v-radio>
-            <v-radio label="Burma" value="burma"></v-radio>
-            <v-radio label="Burundi" value="burundi"></v-radio>
-          </v-radio-group>-->
-
-<!-- v-slot:activator -->
-
-          <v-list>
-            <v-list-group v-for="(comment, index) in comments_tree" :key="index" no-action>
-              <template  v-slot:activator  >
-                <v-list-item-avatar >
-                  <v-img :src="comments[comment.first_cm_id].avatarUrl"></v-img>
-                </v-list-item-avatar>
-
-                <v-list-item-content>
-                  <v-list-item-title v-text="comments[comment.first_cm_id].username"></v-list-item-title>
-
-                  <v-list-item-title v-text="comments[comment.first_cm_id].content"></v-list-item-title>
-                </v-list-item-content>
-                <v-btn >回复</v-btn>
-
-              </template>
+          <v-list v-for="(comment, index) in comments_tree" :key="index">
+            <v-row>
+              <v-list-group no-action style="width: 900px">
 
 
-              <v-list-item v-for="(subComment ,index2) in comment.second_cm_array" :key="index2">
-                <v-list-item-avatar>
-                  <v-img :src="subComment.avatarUrl"></v-img>
-                </v-list-item-avatar>
-                <v-list-item-content>
-                  <v-list-item-title v-text="subComment.content"></v-list-item-title>
-                </v-list-item-content>
-                <v-btn>回复</v-btn>
-              </v-list-item>
-            </v-list-group>
+
+                <template v-slot:activator>
+                  <v-list-item-avatar>
+                    <v-img :src="comments[comment.first_cm_id].avatarUrl"></v-img>
+                  </v-list-item-avatar>
+
+                  <v-list-item-content>
+                    <v-list-item-title v-text="comments[comment.first_cm_id].username"></v-list-item-title>
+
+                    <v-list-item-title v-text="comments[comment.first_cm_id].content"></v-list-item-title>
+                  </v-list-item-content>
+                </template>
+
+
+
+
+                <v-list-item v-for="(subComment ,index2) in comment.second_cm_array" :key="index2">
+                  <v-list-item-avatar>
+                    <v-img :src="subComment.avatarUrl"></v-img>
+                  </v-list-item-avatar>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="subComment.content"></v-list-item-title>
+                  </v-list-item-content>
+                  <v-btn color="blue darken-1" text @click="replyComment(subComment.userId, subComment.username)">回复</v-btn>
+                </v-list-item>
+
+
+
+              </v-list-group>
+              <v-btn color="blue darken-1" text @click="replyComment(comments[comment.first_cm_id].userId, comments[comment.first_cm_id].username)">回复</v-btn>
+            </v-row>
           </v-list>
         </v-card-text>
         <v-divider></v-divider>
@@ -75,8 +61,8 @@
           <v-btn color="blue darken-1" text @click="show_text_field = true">添加评论</v-btn>
           <!-- <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn> -->
         </v-card-actions>
-        <v-text-field v-if="show_text_field"></v-text-field>
-        <v-btn v-if="show_text_field">提交</v-btn>
+        <v-text-field :label="'回复'+r_username" v-model="comment_value" v-if="show_text_field"></v-text-field>
+        <v-btn v-if="show_text_field" max-width="90px" color="blue lighten-3">提交</v-btn>
       </v-card>
     </v-dialog>
   </v-card>
@@ -84,11 +70,28 @@
 
 
 <script>
-export default {
+export default {  
+  methods: {
+    replyComment(user_id, user_name) {
+      this.show_text_field = true;
+      console.log(user_name);
+
+      this.r_userid = user_id;
+      this.r_username = user_name;
+    },
+
+    submitReply(){
+      
+    }
+  },
+
   data() {
     return {
+      comment_value:"",
       show_text_field: false,
-      
+
+      r_userid:"",
+      r_username:"",
       dialogm1: "",
       dialog: false,
       comments: {
@@ -154,12 +157,10 @@ export default {
           ]
         },
 
-        { 
-          first_cm_id: "3", 
-          second_cm_array: [] 
+        {
+          first_cm_id: "3",
+          second_cm_array: []
         }
-
-
       ]
     };
   }
