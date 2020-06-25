@@ -58,7 +58,7 @@
 
 ​	handleScroll(): 
 
-​	requestQuestion(page_num): 
+​	requestQuestion(page_num): 向服务器请求新的问题，page_num 即为当前是第几页，在axios发送请求时要在其中加入headers这个参数，若未登录则会返回登录页面。
 
 ​	change_key_word(data): 
 
@@ -66,13 +66,13 @@
 
 ​	getQA(): 
 
-​	getUserInfo(): 
+​	getUserInfo(): 设置用户信息，用sessionStorage里的userInfo来为相关用户信息赋值。
 
-​	changeToPage(): 
+​	changeToPage(id): 在不同的tab间切换，id即为tab的索引。
 
 ##### 	4. QuestionDetail: 
 
-​	requestQuestion(): 
+​	requestQuestion(): 请求该问题的详情。
 
 ​	requestAnswer(page_num): 
 
