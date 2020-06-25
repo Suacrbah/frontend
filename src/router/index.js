@@ -29,11 +29,6 @@ Vue.use(VueRouter)
       component: Register
     },
     {
-      path: '/question/add',
-      name: 'QuestionEdit',
-      component: QuestionEdit
-    },
-    {
       path: '/question/:questionId',
       // path:'/question',
       name: 'QuestionDetail',

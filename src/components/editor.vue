@@ -15,41 +15,21 @@ export default {
       Text: "",
       Text_html: "",
       value: "",
-      answer_id: 0,
 
       question_id: 0,
     };
   },
   mounted() {
     //获得当前url
-    // console.log(this.$router.params);
-    // console.log(this.$router.path);
+    console.log(this.$route.params);
+    // console.log(this.$route.path);
     // console.log(window.location.href);
 
     var array = window.location.href.split("/");
     this.question_id = array[array.length - 2];
-    // console.log(this.question_id);
-
-    //检查是否回答过该问题
-    this.$axios
-      .get("/answer/checkExist/" + this.question_id, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
-      })
-      .then(res => {
-        // console.log(res.data);
-        if (res.data.msg == "answer exist") {
-          let answer = res.data.data;
-          this.value = answer.content.split("\\SPLIT\\")[1];
-        } else {
-          // this.value = "这里太小，写不下";
-        }
-      })
-      .catch(e => {
-        console.log(e);
-        this.errors.push(e);
-      });
+    if(this.$route.params.answer){
+      this.value = this.$route.params.answer;
+    }
   },
   methods: {
     $imgAdd(pos, $file) {
@@ -113,7 +93,8 @@ export default {
               })
               .then(res => {
                 console.log("发送文本完成");
-                console.log(res.data);
+                res;
+                // console.log(res.data);
                 this.$router.replace("/question/" + this.question_id);
               })
               .catch(e => {
