@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <mavon-editor @imgAdd="$imgAdd" ref="md" @change="changeText" />
+    <mavon-editor v-model="value" @imgAdd="$imgAdd" ref="md" @change="changeText" />
 
     <v-btn @click="submit">Submit</v-btn>
   </v-card>
@@ -14,18 +14,42 @@ export default {
       img_file: {},
       Text: "",
       Text_html: "",
+      value: "",
       answer_id: 0,
 
       question_id: 0,
     };
   },
   mounted() {
+    //获得当前url
     // console.log(this.$router.params);
     // console.log(this.$router.path);
     // console.log(window.location.href);
-    var array = window.location.href.split('/');
-    this.question_id = array[array.length-2];
-    console.log(this.question_id);
+
+    var array = window.location.href.split("/");
+    this.question_id = array[array.length - 2];
+    // console.log(this.question_id);
+
+    //检查是否回答过该问题
+    this.$axios
+      .get("/answer/checkExist/" + this.question_id, {
+        headers: {
+          Authorization: localStorage.getItem("token")
+        }
+      })
+      .then(res => {
+        // console.log(res.data);
+        if (res.data.msg == "answer exist") {
+          let answer = res.data.data;
+          this.value = answer.content.split("\\SPLIT\\")[1];
+        } else {
+          // this.value = "这里太小，写不下";
+        }
+      })
+      .catch(e => {
+        console.log(e);
+        this.errors.push(e);
+      });
   },
   methods: {
     $imgAdd(pos, $file) {
@@ -36,30 +60,23 @@ export default {
     },
 
     changeText(value, render) {
-      // console.log(value);
-      // console.log(render);
-
       this.Text = value;
       this.Text_html = render;
     },
 
+    //提交表单
     submit() {
-      
       let formdata = new FormData();
 
+      //添加所有图片到formdata
       for (var _img in this.img_file) {
-        //console.log(_img);
         formdata.append("files", this.img_file[_img]);
       }
 
-      // console.log(formdata);
-
-      var _this = this;
-      var arr = Object.keys(this.img_file);
-      console.log(arr);
-      console.log(arr.length);
-      if (arr.length > 0) {
-        // console.log("准备发送图片");
+      // const _this = this;
+      if (Object.keys(this.img_file).length > 0) {  //如果上传了图片
+        //准备发送图片
+        console.log("准备发送图片");
         this.$axios
           .post("/answer/image/upload", formdata, {
             headers: {
@@ -67,18 +84,27 @@ export default {
             }
           })
           .then(res => {
-            console.log(res.data);
-            for (var img_url in res.data.data) {
-              _this.$refs.md.$img2Url(
-                (+img_url + 1).toString(),
-                res.data.data[img_url]
+            // console.log(res.data);
+            let img_url_dict = res.data.data;
+            // console.log(img_url_dict);
+            for (var pos in img_url_dict) {
+              // console.log(pos);
+              // console.log(img_url_dict[pos]);
+              this.$refs.md.$img2Url(
+                pos.toString(),
+                img_url_dict[pos]
               );
             }
 
+            console.log("发送图片完成");
             // 发送 回答  文本源码
-
             let formdata2 = new FormData();
-            formdata2.append("content", this.Text_html);
+            // console.log(this.Text);
+            // console.log(this.Text_html);
+            formdata2.append(
+              "content",
+              this.Text_html + "\\SPLIT\\" + this.Text
+            );
             this.$axios
               .post("/answer/add/" + this.question_id, formdata2, {
                 headers: {
@@ -86,18 +112,24 @@ export default {
                 }
               })
               .then(res => {
+                console.log("发送文本完成");
                 console.log(res.data);
+                this.$router.replace("/question/" + this.question_id);
               })
               .catch(e => {
+                console.log(e);
                 this.errors.push(e);
               });
           })
           .catch(e => {
+            console.log(e);
             this.errors.push(e);
           });
       } else {
         let formdata2 = new FormData();
-        formdata2.append("content", this.Text_html);
+        // console.log(this.Text);
+        // console.log(this.Text_html);
+        formdata2.append("content", this.Text_html + "\\SPLIT\\" + this.Text);
         this.$axios
           .post("/answer/add/" + this.question_id, formdata2, {
             headers: {
@@ -105,13 +137,14 @@ export default {
             }
           })
           .then(res => {
-            console.log(res.data);
+            // console.log(res.data);
+            res;
+            this.$router.replace("/question/" + this.question_id);
           })
           .catch(e => {
             this.errors.push(e);
           });
       }
-      this.$router.replace("/question/"+ this.question_id);
     }
   }
 };
