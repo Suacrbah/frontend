@@ -90,27 +90,47 @@
 
 ##### 	6. searchPage:  
 
+​	handleScroll(): 
 
+​	requestQuestion(page_num): 
+
+​	change_key_word(data): 
 
 ##### 	7. AppBar: 
 
+​	toMain(): 跳转到主页。
 
+​	toPage(i): 
+
+​	search(): 
 
 ##### 	8. Comment: 
 
+​	all(): 库函数。
 
+​	none(): 库函数。
+
+​	thumb_up(): 完成点赞和取消点赞，同时给用户显示“已点赞”或“取消点赞”信息。
+
+​	collection(): 完成收藏和取消收藏，同时给用户显示“已收藏”或“取消收藏”信息。
+
+​	displayComment(): 
 
 ##### 	9. editor: 
 
+​	\$imgAdd(pos, \$file): 
 
+​	\$imgDel(pos):
 
-##### 	10. Pagination: 
+​	changeText(value, render): 
 
-
+​	submit()
 
 ##### 	11. questionDes: 
 
+​	activateReadMore(): 
 
+​	disableReadMore(): 
 
-
+​	writeAnswer(): 
 
