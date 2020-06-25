@@ -38,7 +38,7 @@
 
       <!-- //回答内容 -->
       <v-card class="my-1">
-        <div v-html="answer.content"></div>
+        <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
       </v-card>
       <!-- //点赞，评论，收藏 -->
       <comment v-bind:id="answer.id" />
@@ -130,7 +130,8 @@ export default {
           }
         )
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
+          res;
           this.total_page_num = res.data.data.pages;
           this.num_per_page = res.data.data.size;
           this.total_answer_num = res.data.data.total;
