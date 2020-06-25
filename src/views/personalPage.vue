@@ -173,7 +173,11 @@ export default {
           _this.items[id].total_page = res.data.data.pages;
           _this.items[id].current_page = res.data.data.current;
           _this.items[id].contents = res.data.data.records;
-      }).catch(e => {this.errors.push(e);});
+      })
+      .catch(e => {
+        this.errors.push(e);
+        this.$router.push('/login');
+      });
     }
   }
 };
