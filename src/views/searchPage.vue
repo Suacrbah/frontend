@@ -188,6 +188,8 @@ export default {
           key_word:this.key_word
         }
       });
+      location.reload()
+
     }
   }
 };
