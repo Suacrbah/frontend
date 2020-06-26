@@ -27,9 +27,7 @@
         </v-list-item>
 
         <v-card-actions>
-          <v-btn color="orange" text>Share</v-btn>
-
-          <v-btn color="orange" text>Explore</v-btn>
+          <v-btn color="orange" text @click="editInfo()">Edit Info</v-btn>
         </v-card-actions>
       </v-card>
 
@@ -44,13 +42,16 @@
               <v-card-title>{{ content.title }}</v-card-title>
               <v-card-text>{{ content.content }}</v-card-text>
             </v-card>
-            <v-pagination v-model="item.current_page" :length=item.total_page v-on:next="changeToPage(tab)" 
-            v-on:input="changeToPage(tab)"></v-pagination>
+            <v-pagination
+              v-model="item.current_page"
+              :length="item.total_page"
+              v-on:next="changeToPage(tab)"
+              v-on:input="changeToPage(tab)"
+            ></v-pagination>
           </v-tab-item>
         </v-tabs-items>
       </v-card>
     </v-card>
-    
   </div>
 </template>
 
@@ -59,11 +60,10 @@ import AppBar from "../components/AppBar";
 
 export default {
   components: {
-    AppBar,
+    AppBar
   },
   data() {
     return {
-      
       errors: [],
 
       userinfo: {
@@ -71,7 +71,7 @@ export default {
         avatarurl: "",
         email: " ",
         introduction: " ",
-        username: " ",
+        username: " "
       },
       tab: 0,
       items: [
@@ -79,12 +79,12 @@ export default {
           tab: "提问",
           contents: [],
           total_page: 1,
-          current_page:1,
+          current_page: 1
         },
         {
           tab: "收藏",
           total_page: 1,
-          current_page:1,
+          current_page: 1,
           contents: [
             {
               question: "问题1",
@@ -99,7 +99,7 @@ export default {
         {
           tab: "回答",
           total_page: 1,
-          current_page:1,
+          current_page: 1,
           contents: [
             {
               question: "问题1",
@@ -108,7 +108,7 @@ export default {
             {
               question: "问题2",
               answer: "简介"
-            },
+            }
           ]
         }
       ]
@@ -122,7 +122,6 @@ export default {
     this.changeToPage(0);
     this.changeToPage(1);
     this.changeToPage(2);
-
   },
 
   methods: {
@@ -142,41 +141,47 @@ export default {
       this.userinfo.id = va["id"];
       this.userinfo.introduction = va["introduction"];
       this.userinfo.username = va["username"];
-      this.userinfo.avatarurl = va["avatar-url"];
+      this.userinfo.avatarurl = va["avatar_url"];
     },
-    changeToPage(id){
-      const _this=this;
+    changeToPage(id) {
+      const _this = this;
       // console.log(id)
       // alert("Now we're in tab " + this.items[id].tab);
       // console.log('/question/my_question?currentPage='+this.items[id].current_page);
       // this.$axios.get('/question/my_question?currentPage='+this.items[id].current_page,
-      
+
       var req;
-      if(this.items[id].tab == "提问") req = "my_question";
-      else if(this.items[id].tab == "收藏") req = "my_collection";
-      else if(this.items[id].tab == "回答") req = "my_answer";
-      
+      if (this.items[id].tab == "提问") req = "my_question";
+      else if (this.items[id].tab == "收藏") req = "my_collection";
+      else if (this.items[id].tab == "回答") req = "my_answer";
+
       var pre_req;
-      if(this.items[id].tab == "提问") pre_req = "/question/";
-      else if(this.items[id].tab == "收藏") pre_req = "/collection/";
-      else if(this.items[id].tab == "回答") pre_req = "/answer/";
-      
-      this.$axios.get(pre_req+ req + '/?currentPage='+this.items[id].current_page,
-      {
-          headers:{
-              "Authorization": localStorage.getItem("token")
+      if (this.items[id].tab == "提问") pre_req = "/question/";
+      else if (this.items[id].tab == "收藏") pre_req = "/collection/";
+      else if (this.items[id].tab == "回答") pre_req = "/answer/";
+
+      this.$axios
+        .get(pre_req + req + "/?currentPage=" + this.items[id].current_page, {
+          headers: {
+            Authorization: localStorage.getItem("token")
           }
-      }
-      ).then(res=>{
-          console.log(res.data);
-          
+        })
+        .then(res => {
+          // console.log(res.data);
+
           _this.items[id].total_page = res.data.data.pages;
           _this.items[id].current_page = res.data.data.current;
           _this.items[id].contents = res.data.data.records;
-      })
-      .catch(e => {
-        this.errors.push(e);
-        this.$router.push('/login');
+        })
+        .catch(e => {
+          this.errors.push(e);
+          this.$router.push("/login");
+        });
+    },
+    editInfo() {
+      this.$router.push({
+        name: "personalInfoEdit",
+        params: {}
       });
     }
   }
