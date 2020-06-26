@@ -64,7 +64,7 @@
     <v-snackbar :timeout="2000" v-model="snackbar" top color="success">{{ msg }}</v-snackbar>
   </v-card>-->
 
-  <v-card max-width="10000px" class="mx-auto">
+  <v-card max-width="10000px" class="mx-auto" ref="comment" :id="id">
     <v-dialog v-model="dialog" scrollable max-width="1000px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn @click="thumb_up()" class="ma-2" color="yellow lighten-1">
@@ -141,6 +141,9 @@
 
 <script>
 export default {
+  mounted(){
+    this.test()
+  },
   props: ["id"],
   data() {
     return {
@@ -241,7 +244,12 @@ export default {
       answer_id: 0
     };
   },
+ 
   methods: {
+    test(){
+      console.log("1"+this.refs)
+    },
+
     // Create an array the length of our items
     // with all values as true
     all() {

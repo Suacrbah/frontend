@@ -99,12 +99,12 @@ export default {
     };
   },
   mounted() {
-    // this.requestQuestion();
+    this.requestQuestion();
     //初始化回答列表
-    // this.requestAnswer(this.page_num);
+    this.requestAnswer(this.page_num);
 
     // 增加监听页面滑动事件
-    // window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener("scroll", this.handleScroll);
 
     // 评论吸底效果
     window.addEventListener("scroll", this.initHeight);
@@ -218,7 +218,13 @@ export default {
       }
       // this.isFixed[0] = true;
       // this.isFixed[1] = true;
-    }
+    },
+    destroyed_1() {
+      window.removeEventListener("scroll", this.initHeight);
+    },
+    destroyed_2() {
+      window.removeEventListener("scroll", this.handleScroll);
+    },
   }
 };
 </script>
