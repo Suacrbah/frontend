@@ -51,7 +51,7 @@
 export default {
   components: {
     QuesDes: () => import("@/components/questionDes"),
-    Comment: () => import("@/components/Comment"),
+    Comment: () => import("@/components/Comment")
   },
   data() {
     return {
@@ -138,6 +138,10 @@ export default {
 
           this.new_answer = res.data.data.records;
           this.answer_list = this.answer_list.concat(this.new_answer);
+
+          for (var idx in this.answer_list) {
+            console.log(this.answer_list[idx].id);
+          }
         })
         .catch(e => {
           this.errors.push(e);
@@ -181,6 +185,10 @@ export default {
     }
   }
 };
+
+
+
+
 </script>
 
 <style scoped>
