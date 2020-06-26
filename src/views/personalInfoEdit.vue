@@ -12,8 +12,13 @@
       </v-card>
 
       <v-card class="mt-n14 ml-10" width="164" elevation="0">
-        <v-card @click="submit()" class="mx-1 py-1">
-          <v-img src="https://cdn.vuetifyjs.com/images/john.jpg"></v-img>
+        <v-card class="px-1 py-1" @click="submit()">
+          <v-img src="https://cdn.vuetifyjs.com/images/john.jpg">
+            <v-overlay absolute :value="true">
+              
+          <v-icon color="white">mdi-camera</v-icon><span> 编辑头像</span>
+            </v-overlay>
+          </v-img>
         </v-card>
       </v-card>
 
@@ -43,7 +48,7 @@ export default {
   },
   methods: {
     submit() {
-      console.log("submit");
+      alert("Hello");
     }
   }
 };
