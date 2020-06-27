@@ -251,7 +251,7 @@ export default {
         // this.answer_list_debug[j]["isFixed"]
         let res0 =
           this.scrollTop + this.clientHeight < offsetTop + p_top &&
-          p_top  < this.scrollTop + this.clientHeight
+          p_top + 500 < this.scrollTop + this.clientHeight
             ? true
             : false;
         this.$set(this.answer_list_debug[j], "isFixed", res0);
