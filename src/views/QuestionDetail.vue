@@ -1,5 +1,5 @@
 <template>
-  <v-card id="hello" class="mx-auto" max-width="1000" style="overflow-y:scroll" >
+  <v-card id="hello" class="mx-auto" max-width="1000" style="overflow-y:scroll">
     <!-- //问题 -->
     <div>
       <ques-des v-bind:question="question"></ques-des>
@@ -10,12 +10,14 @@
     </v-card>
 
     <!-- //回答列表 -->
-    <!-- <v-card v-for="(answer, index) in answer_list_debug" :key="answer.id"> -->
-    <v-card v-for="(answer,index) in answer_list_debug" :key="answer.id" :id="answer.id+'0'" ref="cardref">
-      <div>{{answer.id}}{{answer_list_debug[index].isFixed}}</div>
+    <v-card
+      v-for="(answer,index) in answer_list_debug"
+      :key="answer.id"
+      :id="answer.id+'0'"
+      ref="cardref"
+    >
       <!-- //回答作者信息 -->
-      <!-- <v-card :id="'ans'+index"> -->
-      <v-card >
+      <v-card :id="'ans'+index">
         <v-list three-line>
           <v-list-item>
             <v-list-item-avatar>
@@ -41,16 +43,12 @@
       </v-card>
 
       <!-- //回答内容 -->
-      <v-card class="my-1" >
+      <v-card class="my-1">
         <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
       </v-card>
       <!-- //点赞，评论，收藏 -->
-      <div>{{answer.isFixed}}</div>
-      <comment v-cloak :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref = "comment" />
+      <comment v-cloak :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
 
-      <!-- <v-btn class="isFixed" dark fab top right color="white" @click="nextAnswer(index+1)">
-          <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon>
-      </v-btn>-->
     </v-card>
     <div id="bottom"></div>
   </v-card>
@@ -128,30 +126,17 @@ export default {
     };
   },
   mounted() {
-    // this.requestQuestion();
+    this.requestQuestion();
     //初始化回答列表
-    // this.requestAnswer(this.page_num);
+    this.requestAnswer(this.page_num);
 
     // 增加监听页面滑动事件
-    // window.addEventListener("scroll", this.handleScroll);
-
+    window.addEventListener("scroll", this.handleScroll);
     // 评论吸底效果
     window.addEventListener("scroll", this.initHeight);
 
-    // this.answer_list_debug[0]['isFixed'] = false;
-    // 动态数据获取
-    this.$nextTick(() => {
-      // this.clientHeight = document.documentElement.clientHeight;
-      // for (var i = 0; i < this.answer_list_debug.length; i++) {
-      //   let cm_id = this.answer_list_debug[i].id;
-      //   let header = document.getElementById(cm_id + "0");
-      //   this.answer_list_debug[i]["p_top"] = header.offsetTop;
-      //   let header1 = document.getElementById(cm_id);
-      //   this.answer_list_debug[i]["offsetTop"] = header1.offsetTop;
-      // }
-    });
+    this.$nextTick(() => {});
 
-    // 静态数据测试
   },
   methods: {
     requestQuestion() {
@@ -189,16 +174,8 @@ export default {
           this.new_answer = res.data.data.records;
           this.answer_list = this.answer_list.concat(this.new_answer);
 
-          // for (var key in this.answer_list_debug) {
-          //   // for (var answer in this.answer_list[key]) {
-          //   // tmp_fixed[this.answer_list[key].id] = false;
-          //   let cm_id = this.answer_list_debug[key].id;
-          //   this.isFixed[cm_id] = false;
-          //   this.p_top[cm_id] = 0;
-          //   this.offsetTop[cm_id] = 0;
-          // }
-
-          for (var i = 0; i < this.answer_list_debug.lengths; i++) {
+          for (var i = 0; i < this.answer_list_debug.length; i++) {
+            // for (var i = 0; i < ; i++) {
             this.answer_list_debug[i]["isFixed"] = false;
             this.answer_list_debug[i]["p_top"] = 1;
             this.answer_list_debug[i]["offsetTop"] = 1;
@@ -256,13 +233,15 @@ export default {
       for (var i = 0; i < this.answer_list_debug.length; i++) {
         let cm_id = this.answer_list_debug[i].id;
         let header = document.getElementById(cm_id + "0");
+        let header1 = document.getElementById(cm_id);
         // let header2 = this.$refs.Comment[cm_id];
         // console.log(header2);
 
-        this.answer_list_debug[i]["p_top"] = header.offsetTop;
-
-        let header1 = document.getElementById(cm_id);
-        this.answer_list_debug[i]["offsetTop"] = header1.offsetTop;
+        // 防止抖动
+        if (this.answer_list_debug[i]["isFixed"] == false) {
+          this.answer_list_debug[i]["p_top"] = header.offsetTop;
+          this.answer_list_debug[i]["offsetTop"] = header1.offsetTop;
+        }
       }
 
       for (var j = 0; j < this.answer_list_debug.length; j++) {
@@ -271,28 +250,11 @@ export default {
 
         // this.answer_list_debug[j]["isFixed"]
         let res0 =
-          this.scrollTop + this.clientHeight < offsetTop &&
-          p_top < this.scrollTop + this.clientHeight
+          this.scrollTop + this.clientHeight < offsetTop + p_top &&
+          p_top  < this.scrollTop + this.clientHeight
             ? true
             : false;
-        var a = 0;
-        var res1;
-        if(res0 == res1){
-          a = 0;
-        } 
-        else{
-          a = 1;
-          res1 = res0;
-        }
-        if(a == 1){
-          this.$set(this.answer_list_debug[j], 'isFixed', res1);
-          a = 0;
-        }
-        
-        // this.$set(this.answer_list_debug[j], 'isFixed', (this.scrollTop + this.clientHeight < offsetTop &&
-        //   p_top < this.scrollTop + this.clientHeight
-        //     ? true
-        //     : false));
+        this.$set(this.answer_list_debug[j], "isFixed", res0);
       }
     }
   },
