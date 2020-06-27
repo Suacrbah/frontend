@@ -9,6 +9,7 @@ import Debug from '../views/Debug.vue'
 import Debug2 from '../views/Debug2.vue'
 import personalPage from '../views/personalPage.vue'
 import searchPage from '../views/searchPage.vue'
+import personalInfoEdit from '../views/personalInfoEdit.vue'
 
 Vue.use(VueRouter)
 
@@ -43,6 +44,11 @@ Vue.use(VueRouter)
       path: '/personalPage',
       name: 'personalPage',
       component: personalPage
+    },
+    {
+      path: '/personalPage/info/edit',
+      name: 'personalInfoEdit',
+      component: personalInfoEdit
     },
     {
       path: '/main',

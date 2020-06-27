@@ -263,6 +263,10 @@ export default {
     window.removeEventListener("scroll", this.handleScroll);
   }
 };
+
+
+
+
 </script>
 
 <style scoped >
