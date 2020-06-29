@@ -38,9 +38,8 @@
       <!-- <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon> -->
       <!-- //下一个回答按钮:class="{'top_isFixed': answer.t_isFixed}"?? -->
       <!--  -->
-      <v-card v-bind:id="answer.id + '1'" :class="{'top_isFixed': answer.t_isFixed}">
-        {{answer.t_isFixed}}  
-        <v-btn  dark fab top right @click="nextAnswer(index+1)">Next</v-btn>
+      <v-card v-bind:id="answer.id + '1'"  :class="{'top_isFixed': answer.t_isFixed}">
+        <v-btn  dark fab top @click="nextAnswer(index+1)">Next</v-btn>
         <v-btn  white fab top @click="preAnswer(index-1)">Pre</v-btn>
       </v-card>
 
@@ -50,8 +49,6 @@
       </v-card>
       <!-- //点赞，评论，收藏 -->
       <!-- <comment :class="{'bottom_isFixed': answer.b_isFixed}" v-bind:id="answer.id" ref="comment" /> -->
-      {{answer.t_isFixed}}
-      
       <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
     </v-card>
     <div id="bottom"></div>
@@ -258,11 +255,16 @@ export default {
         let header1 = document.getElementById(cm_id);
         let header2 = document.getElementById(cm_id + "1");
 
-        if (this.answer_list[i]["t_isFixed"] == false) {
-          this.answer_list[i]["p_top2"] = header2.offsetTop;
-        }
+        // if (this.answer_list[i]["t_isFixed"] == false) {
+        //   this.answer_list[i]["p_top2"] = header2.offsetTop;
+        //   // 为了防止抖动，这儿也需要判定
+        //   this.answer_list[i]["p_top"] = header.offsetTop;
+        //   this.answer_list[i]["offsetTop"] = header1.offsetTop;
+        // }
+
         // 防止抖动
-        if (this.answer_list[i]["isFixed"] == false) {
+        if (this.answer_list[i]["isFixed"] == false || this.answer_list[i]["t_isFixed" == false]) {
+          this.answer_list[i]["p_top2"] = header2.offsetTop;
           this.answer_list[i]["p_top"] = header.offsetTop;
           this.answer_list[i]["offsetTop"] = header1.offsetTop;
         }
@@ -274,8 +276,8 @@ export default {
         let p_top2 = this.answer_list[j]["p_top2"];
         // this.answer_list[j]["isFixed"]
         let res0 =
-          this.scrollTop + this.clientHeight < offsetTop + p_top  &&
-          p_top + 600 < this.scrollTop + this.clientHeight
+          this.scrollTop + this.clientHeight < offsetTop + p_top - 200 &&
+          p_top + 500 < this.scrollTop + this.clientHeight
             ? true
             : false;
         let res1 =
@@ -319,13 +321,14 @@ export default {
 .isFixed {
   position: fixed;
   bottom: 0;
-  z-index: 999;
+  /* right: 0; */
+  z-index: 10000;
 }
 .top_isFixed {
   /* color: red */
   position: fixed;
-  top: 0;
-  color: darkblue;
-  z-index: 999;
+  top: 65px;
+  /* right: 0; */
+  z-index: 10000;
 }
 </style>
