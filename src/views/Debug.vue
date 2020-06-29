@@ -1,58 +1,82 @@
 <template>
-  <v-app id="app" class="mt-0">
-    <v-container grid-list-xl>
-      <image-input v-model="avatar">
-        <div slot="activator">
-          <v-avatar size="150px" v-ripple v-if="!avatar" class="grey lighten-3 mb-3">
-            <div>
-            <v-icon>mdi-camera</v-icon>编辑头像
-            </div>
-          </v-avatar>
-          <v-avatar size="150px" v-ripple v-else class="mb-3">
-            <img :src="avatar.imageURL" alt="avatar">
-          </v-avatar>
-        </div>
-      </image-input>
-      <v-slide-x-transition>
-        <div v-if="avatar && saved == false">
-          <v-btn class="primary" @click="uploadImage" :loading="saving">Save Avatar</v-btn>
-        </div>
-      </v-slide-x-transition>
-    </v-container>
-  </v-app>
+  <v-container fluid>
+
+    <v-row>
+      <v-col cols="4">
+        <v-subheader style="color: black">性别</v-subheader>
+      </v-col>
+      <v-col cols="8">
+        <v-select
+          :items="items"
+        ></v-select>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="4">
+        <v-subheader style="color: black">一句话介绍</v-subheader>
+      </v-col>
+      <v-col cols="8">
+        <v-text-field
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="4">
+        <v-subheader style="color: black">居住地</v-subheader>
+      </v-col>
+      <v-col cols="8">
+        <v-text-field
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="4">
+        <v-subheader style="color: black">所在行业</v-subheader>
+      </v-col>
+      <v-col cols="8">
+        <v-text-field
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="4">
+        <v-subheader style="color: black">职业经历</v-subheader>
+      </v-col>
+      <v-col cols="8">
+        <v-text-field
+        ></v-text-field>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="4">
+        <v-subheader style="color: black">教育经历</v-subheader>
+      </v-col>
+      <v-col cols="8">
+        <v-text-field
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="4">
+        <v-subheader style="color: black">个人简介</v-subheader>
+      </v-col>
+      <v-col cols="8">
+        <v-text-field
+        ></v-text-field>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import ImageInput from '../components/AvatarUpload.vue'
-export default {
-  name: 'app',
-  data () {
-    return {
-      avatar: null,
-      saving: false,
-      saved: false
-    }
-  },
-  components: {
-    ImageInput: ImageInput
-  },
-  watch:{
-    avatar: {
-      handler: function() {
-        this.saved = false
-      },
-      deep: true
-    }
-  },
-  methods: {
-    uploadImage() {
-      this.saving = true
-      setTimeout(() => this.savedAvatar(), 1000)
-    },
-    savedAvatar() {
-      this.saving = false
-      this.saved = true
-    }
+  export default {
+    data: () => ({
+      items: ['男', '女'],
+    }),
   }
-}
 </script>
