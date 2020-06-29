@@ -11,7 +11,7 @@
 
     <!-- //回答列表 -->
     <v-card
-      v-for="(answer,index) in answer_list_debug"
+      v-for="(answer,index) in answer_list"
       :key="answer.id"
       :id="answer.id+'0'"
       ref="cardref"
@@ -47,7 +47,7 @@
         <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
       </v-card>
       <!-- //点赞，评论，收藏 -->
-      <comment v-cloak :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
+      <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
 
     </v-card>
     <div id="bottom"></div>
@@ -174,7 +174,7 @@ export default {
           this.new_answer = res.data.data.records;
           this.answer_list = this.answer_list.concat(this.new_answer);
 
-          for (var i = 0; i < this.answer_list_debug.length; i++) {
+          for (var i = 0; i < this.answer_list.length; i++) {
             // for (var i = 0; i < ; i++) {
             this.answer_list_debug[i]["isFixed"] = false;
             this.answer_list_debug[i]["p_top"] = 1;
@@ -230,31 +230,31 @@ export default {
 
       this.clientHeight = document.documentElement.clientHeight;
 
-      for (var i = 0; i < this.answer_list_debug.length; i++) {
-        let cm_id = this.answer_list_debug[i].id;
+      for (var i = 0; i < this.answer_list.length; i++) {
+        let cm_id = this.answer_list[i].id;
         let header = document.getElementById(cm_id + "0");
         let header1 = document.getElementById(cm_id);
         // let header2 = this.$refs.Comment[cm_id];
         // console.log(header2);
 
         // 防止抖动
-        if (this.answer_list_debug[i]["isFixed"] == false) {
-          this.answer_list_debug[i]["p_top"] = header.offsetTop;
-          this.answer_list_debug[i]["offsetTop"] = header1.offsetTop;
+        if (this.answer_list[i]["isFixed"] == false) {
+          this.answer_list[i]["p_top"] = header.offsetTop;
+          this.answer_list[i]["offsetTop"] = header1.offsetTop;
         }
       }
 
-      for (var j = 0; j < this.answer_list_debug.length; j++) {
-        let offsetTop = this.answer_list_debug[j]["offsetTop"];
-        let p_top = this.answer_list_debug[j]["p_top"];
+      for (var j = 0; j < this.answer_list.length; j++) {
+        let offsetTop = this.answer_list[j]["offsetTop"];
+        let p_top = this.answer_list[j]["p_top"];
 
-        // this.answer_list_debug[j]["isFixed"]
+        // this.answer_list[j]["isFixed"]
         let res0 =
           this.scrollTop + this.clientHeight < offsetTop + p_top &&
-          p_top + 500 < this.scrollTop + this.clientHeight
+          p_top + 300 < this.scrollTop + this.clientHeight
             ? true
             : false;
-        this.$set(this.answer_list_debug[j], "isFixed", res0);
+        this.$set(this.answer_list[j], "isFixed", res0);
       }
     }
   },
