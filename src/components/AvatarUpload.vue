@@ -1,9 +1,9 @@
 <template>
   <div>
     <!-- slot for parent component to activate the file changer -->
-    <div @click="launchFilePicker()">
+    <btn @click="launchFilePicker()">
       <slot name="activator"></slot>
-    </div>
+    </btn>
     <!-- image input: style is set to hidden and assigned a ref so that it can be triggered -->
     <input
       type="file"
@@ -64,7 +64,7 @@ export default {
           // Append file into FormData & turn file into image URL
           let formData = new FormData();
           let imageURL = URL.createObjectURL(imageFile);
-          
+
           console.log(imageFile);
           formData.append("files", imageFile);
 
