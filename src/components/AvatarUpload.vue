@@ -1,14 +1,14 @@
 <template>
   <div>
     <!-- slot for parent component to activate the file changer -->
-    <div @click="launchFilePicker()">
+    <btn @click="launchFilePicker()">
       <slot name="activator"></slot>
-    </div>
+    </btn>
     <!-- image input: style is set to hidden and assigned a ref so that it can be triggered -->
     <input
       type="file"
       ref="file"
-      :name="uploadFieldName"
+      :name="fieldName"
       @change="onFileChange(
           $event.target.name, $event.target.files)"
       style="display:none"
@@ -32,8 +32,8 @@ export default {
   data: () => ({
     errorDialog: null,
     errorText: "",
-    uploadFieldName: "file",
-    maxSize: 1024
+    maxSize: 1024,
+    fieldName: "file",
   }),
   props: {
     // Use "value" here to enable compatibility with v-model
@@ -43,12 +43,13 @@ export default {
     launchFilePicker() {
       this.$refs.file.click();
     },
-    onFileChange(fieldName, file) {
+    onFileChange(fieldName, files) {
+      // console.log(fieldName, file);
       const { maxSize } = this;
-      let imageFile = file[0];
+      let imageFile = files[0];
 
       //check if user actually selected a file
-      if (file.length > 0) {
+      if (files.length > 0) {
         let size = imageFile.size / maxSize / maxSize;
         if (!imageFile.type.match("image.*")) {
           // check whether the upload is an image
@@ -63,7 +64,10 @@ export default {
           // Append file into FormData & turn file into image URL
           let formData = new FormData();
           let imageURL = URL.createObjectURL(imageFile);
-          formData.append(fieldName, imageFile);
+
+          console.log(imageFile);
+          formData.append("files", imageFile);
+
           // Emit FormData & image URL to the parent component
           this.$emit("input", { formData, imageURL });              //在父组件中@input
         }

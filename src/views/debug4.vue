@@ -274,7 +274,7 @@ export default {
         // console.log(cm_id);
 
         let header = document.getElementById(cm_id);
-        console.log(header);
+        console.log(header);  
         this.offsetTop[cm_id] = header.offsetTop;
         console.log(this.offsetTop[cm_id])
         let header1 = document.getElementById(cm_id+'0');
