@@ -66,17 +66,78 @@ export default {
     };
   },
   created() {
-    this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    // 从sessionStorage获得用户信息
+    // this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     // console.log(this.userInfo);
+
+    //发送请求获得用户详细信息
+    this.$axios
+      .get("/user/getInfo/", {
+        headers: {
+          Authorization: localStorage.getItem("token")
+        }
+      })
+      .then(res => {
+        // console.log(res);
+        this.userInfo = res.data.data;
+        console.log(this.userInfo);
+
+        this.avatar = this.userInfo.avatarUrl;
+      })
+      .catch(e => {
+        console.log(e);
+        this.errors.push(e);
+      });
   },
   methods: {
     uploadAvatar(data) {
-      // console.log(data);
       this.avatar = data["imageURL"];
       this.formData = data["formData"];
     },
     submit() {
+      // 单独上传头像（后端将头像url更新）
+      this.$axios
+        .post("/avatar/upload/", this.formData, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          res;
+        })
+        .catch(e => {
+          console.log(e);
+          this.errors.push(e);
+        });
       
+      
+      // 更新用户信息
+      let formData2 = new FormData();
+
+      formData2.append("username", this.userInfo.avatarUrl);
+      formData2.append("email", this.userInfo.email);
+      formData2.append("gender", this.userInfo.gender);
+      formData2.append("gender", this.userInfo.gender);
+      formData2.append("introduction", this.userInfo.introduction);
+      formData2.append("phonenumber", this.userInfo.phonenumber);
+      formData2.append("postition", this.userInfo.postition);
+      formData2.append("career", this.userInfo.career);
+      formData2.append("education", this.userInfo.education);
+
+      this.$axios
+        .post("/user/update/", formData2, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          console.log(res);
+          // res;
+        })
+        .catch(e => {
+          console.log(e);
+          this.errors.push(e);
+        });
     }
   }
 };
