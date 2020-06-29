@@ -51,6 +51,9 @@ export default {
       //添加所有图片到formdata
       for (var _img in this.img_file) {
         formdata.append("files", this.img_file[_img]);
+        // console.log("abc");
+        // console.log(this.img_file[_img]);
+        // console.log(formdata);
       }
 
       // const _this = this;
