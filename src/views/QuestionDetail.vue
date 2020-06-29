@@ -1,59 +1,61 @@
 <template>
-<div>
-  <v-card id="hello" class="mx-auto" max-width="1000">
-    <!-- //问题 -->
-    <div>
-      <ques-des v-bind:question="question"></ques-des>
-    </div>
+  <div>
+    <app-bar @change_key_word="change_key_word" :q="key_word"></app-bar>
 
-    <v-card class="my-1">
-      <span>{{ total_answer_num }}</span>
-    </v-card>
+    <v-card id="hello" class="mx-auto" max-width="1000">
+      <!-- //问题 -->
+      <div>
+        <ques-des v-bind:question="question"></ques-des>
+      </div>
 
-    <!-- //回答列表 -->
-    <div id="top"></div>
-    <v-card
-      v-for="(answer,index) in answer_list"
-      :key="answer.id"
-      :id="answer.id+'0'"
-      ref="cardref"
-    >
-      <!-- //回答作者信息 -->
-      <v-card :id="'ans'+index">
-        <v-list three-line>
-          <v-list-item>
-            <v-list-item-avatar>
-              <v-img :src="answer.avatarUrl"></v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title v-text="answer.username"></v-list-item-title>
-              <v-list-item-subtitle v-text="answer.introduction"></v-list-item-subtitle>
-              <v-list-item-subtitle
-                v-text="answer.likeCount + '人赞同该回答，' + answer.collectCount + '人收藏该回答'"
-              ></v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-card>
-
-      <!-- <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon> -->
-      <!-- //下一个回答按钮:class="{'top_isFixed': answer.t_isFixed}"?? -->
-      <!--  -->
-      <v-card v-bind:id="answer.id + '1'" :class="{'top_isFixed': answer.t_isFixed}">
-        {{answer.t_isFixed}}  
-        <v-btn  dark fab top right @click="nextAnswer(index+1)">Next</v-btn>
-        <v-btn  white fab top @click="preAnswer(index-1)">Pre</v-btn>
-      </v-card>
-
-      <!-- //回答内容 -->
       <v-card class="my-1">
-        <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
+        <span>{{ total_answer_num }}</span>
       </v-card>
-      <!-- //点赞，评论，收藏 -->
-      <!-- <comment :class="{'bottom_isFixed': answer.b_isFixed}" v-bind:id="answer.id" ref="comment" /> -->
-      {{answer.t_isFixed}}
-      
-      <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
+
+      <!-- //回答列表 -->
+      <div id="top"></div>
+      <v-card
+        v-for="(answer,index) in answer_list"
+        :key="answer.id"
+        :id="answer.id+'0'"
+        ref="cardref"
+      >
+        <!-- //回答作者信息 -->
+        <v-card :id="'ans'+index">
+          <v-list three-line>
+            <v-list-item>
+              <v-list-item-avatar>
+                <v-img :src="answer.avatarUrl"></v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-text="answer.username"></v-list-item-title>
+                <v-list-item-subtitle v-text="answer.introduction"></v-list-item-subtitle>
+                <v-list-item-subtitle
+                  v-text="answer.likeCount + '人赞同该回答，' + answer.collectCount + '人收藏该回答'"
+                ></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-card>
+
+        <!-- <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon> -->
+        <!-- //下一个回答按钮:class="{'top_isFixed': answer.t_isFixed}"?? -->
+        <!--  -->
+        <v-card v-bind:id="answer.id + '1'" :class="{'top_isFixed': answer.t_isFixed}">
+          {{answer.t_isFixed}}
+          <v-btn dark fab top right @click="nextAnswer(index+1)">Next</v-btn>
+          <v-btn white fab top @click="preAnswer(index-1)">Pre</v-btn>
+        </v-card>
+
+        <!-- //回答内容 -->
+        <v-card class="my-1">
+          <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
+        </v-card>
+        <!-- //点赞，评论，收藏 -->
+        <!-- <comment :class="{'bottom_isFixed': answer.b_isFixed}" v-bind:id="answer.id" ref="comment" /> -->
+        {{answer.t_isFixed}}
+        <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
+      </v-card>
     </v-card>
   </div>
 </template>
@@ -69,7 +71,7 @@ export default {
   },
   data() {
     return {
-      key_word: "???",
+      key_word: "",
       name: "QuestionDetail",
 
       questionId: -1,
@@ -154,6 +156,17 @@ export default {
     this.$nextTick(() => {});
   },
   methods: {
+    change_key_word(data) {
+      console.log("这啥啊");
+      this.key_word = data.query_key_word;
+      this.$router.push({
+        name: "Search",
+        params: {
+          key_word: this.key_word
+        }
+      });
+    },
+
     requestQuestion() {
       this.questionId = this.$route.params["questionId"];
 
@@ -278,12 +291,12 @@ export default {
         let p_top2 = this.answer_list[j]["p_top2"];
         // this.answer_list[j]["isFixed"]
         let res0 =
-          this.scrollTop + this.clientHeight < offsetTop + p_top  &&
+          this.scrollTop + this.clientHeight < offsetTop + p_top &&
           p_top + 600 < this.scrollTop + this.clientHeight
             ? true
             : false;
         let res1 =
-          ((p_top2 + p_top) < this.scrollTop) &&
+          p_top2 + p_top < this.scrollTop &&
           p_top + offsetTop > this.scrollTop + this.clientHeight
             ? true
             : false;
@@ -291,7 +304,7 @@ export default {
         // console.log(res0);
         // console.log(res1);
         // console.log("hello");
-        
+
         this.$set(this.answer_list[j], "t_isFixed", res1);
         this.$set(this.answer_list[j], "isFixed", res0);
       }
@@ -301,17 +314,7 @@ export default {
     window.removeEventListener("scroll", this.initHeight);
     window.removeEventListener("scroll", this.handleScroll);
   },
-
-  change_key_word(data) {
-    alert("????");
-    this.key_word = data.query_key_word;
-    this.$router.push({
-      name: "Search",
-      params: {
-        key_word: this.key_word
-      }
-    });
-  }
+  
 };
 </script>
 
@@ -339,7 +342,7 @@ export default {
 .top_isFixed {
   /* color: red */
   position: fixed;
-  top: 0;
+  top: 65px;
   color: darkblue;
   z-index: 999;
 }
