@@ -112,6 +112,7 @@ export default {
         query_key_word: this.q
       };
       this.$emit("change_key_word", data);
+      console.log(data.query_key_word);
     },
 
     

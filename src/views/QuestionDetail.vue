@@ -1,67 +1,72 @@
 <template>
-  <v-card id="hello" class="mx-auto" max-width="1000" style="overflow-y:scroll">
-    <!-- //问题 -->
-    <div>
-      <ques-des v-bind:question="question"></ques-des>
-    </div>
+  <div>
+    <app-bar @change_key_word="change_key_word" :q="key_word"></app-bar>
+    <v-card id="hello" class="mx-auto" max-width="1000" style="overflow-y:scroll">
+      <!-- //问题 -->
+      <div>
+        <ques-des v-bind:question="question"></ques-des>
+      </div>
 
-    <v-card class="my-1">
-      <span>{{ total_answer_num }}</span>
-    </v-card>
-
-    <!-- //回答列表 -->
-    <v-card
-      v-for="(answer,index) in answer_list"
-      :key="answer.id"
-      :id="answer.id+'0'"
-      ref="cardref"
-    >
-      <!-- //回答作者信息 -->
-      <v-card :id="'ans'+index">
-        <v-list three-line>
-          <v-list-item>
-            <v-list-item-avatar>
-              <v-img :src="answer.avatarUrl"></v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title v-text="answer.username"></v-list-item-title>
-              <v-list-item-subtitle v-text="answer.introduction"></v-list-item-subtitle>
-              <v-list-item-subtitle
-                v-text="answer.likeCount + '人赞同该回答，' + answer.collectCount + '人收藏该回答'"
-              ></v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-card>
-
-      <!-- //下一个回答按钮 -->
-      -->
-      <v-card>
-        <v-btn dark fab top right color="white" @click="nextAnswer(index+1)">
-          <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon>
-        </v-btn>
-      </v-card>
-
-      <!-- //回答内容 -->
       <v-card class="my-1">
-        <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
+        <span>{{ total_answer_num }}</span>
       </v-card>
-      <!-- //点赞，评论，收藏 -->
-      <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
 
+      <!-- //回答列表 -->
+      <v-card
+        v-for="(answer,index) in answer_list"
+        :key="answer.id"
+        :id="answer.id+'0'"
+        ref="cardref"
+      >
+        <!-- //回答作者信息 -->
+        <v-card :id="'ans'+index">
+          <v-list three-line>
+            <v-list-item>
+              <v-list-item-avatar>
+                <v-img :src="answer.avatarUrl"></v-img>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title v-text="answer.username"></v-list-item-title>
+                <v-list-item-subtitle v-text="answer.introduction"></v-list-item-subtitle>
+                <v-list-item-subtitle
+                  v-text="answer.likeCount + '人赞同该回答，' + answer.collectCount + '人收藏该回答'"
+                ></v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
+        </v-card>
+
+        <!-- //下一个回答按钮 -->
+        <v-card>
+          <v-btn dark fab top right color="white" @click="nextAnswer(index+1)">
+            <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon>
+          </v-btn>
+        </v-card>
+
+        <!-- //回答内容 -->
+        <v-card class="my-1">
+          <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
+        </v-card>
+        <!-- //点赞，评论，收藏 -->
+        <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
+      </v-card>
+      <div id="bottom"></div>
     </v-card>
-    <div id="bottom"></div>
-  </v-card>
+  </div>
 </template>
 
 <script>
+import AppBar from "../components/AppBar";
+
 export default {
   components: {
     QuesDes: () => import("@/components/questionDes"),
-    Comment: () => import("@/components/Comment")
+    Comment: () => import("@/components/Comment"),
+    AppBar
   },
   data() {
     return {
+      key_word: "???",
       name: "QuestionDetail",
 
       questionId: -1,
@@ -136,7 +141,6 @@ export default {
     window.addEventListener("scroll", this.initHeight);
 
     this.$nextTick(() => {});
-
   },
   methods: {
     requestQuestion() {
@@ -261,12 +265,19 @@ export default {
   destroyed_1() {
     window.removeEventListener("scroll", this.initHeight);
     window.removeEventListener("scroll", this.handleScroll);
+  },
+
+  change_key_word(data) {
+    alert("????");
+    this.key_word = data.query_key_word;
+    this.$router.push({
+      name: "Search",
+      params: {
+        key_word: this.key_word
+      }
+    });
   }
 };
-
-
-
-
 </script>
 
 <style scoped >
