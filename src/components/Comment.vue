@@ -141,9 +141,6 @@
 
 <script>
 export default {
-  mounted(){
-    this.test()
-  },
   props: ["id"],
   data() {
     return {
@@ -246,9 +243,6 @@ export default {
   },
  
   methods: {
-    test(){
-      console.log("1"+this.refs)
-    },
 
     // Create an array the length of our items
     // with all values as true
@@ -301,7 +295,7 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
           for (var key in res.data.data) {
             // console.log(key);
             //this.comments_tree[key] = res.data.data[key];
@@ -350,7 +344,7 @@ export default {
 
     replyComment(comment_id, user_name) {
       this.show_text_field = true;
-      console.log(this.id);
+      // console.log(this.id);
 
       this.r_commentid = comment_id;
       this.r_username = user_name;
