@@ -1,5 +1,5 @@
 <template>
-  <v-card id="hello" class="mx-auto" max-width="1000" style="overflow-y:scroll">
+  <v-card id="hello" class="mx-auto" max-width="1000" >
     <!-- //问题 -->
     <div>
       <ques-des v-bind:question="question"></ques-des>
@@ -34,12 +34,15 @@
         </v-list>
       </v-card>
 
-      <!-- //下一个回答按钮 -->
-      -->
+      <!-- <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon> -->
+      <!-- //下一个回答按钮:class="{'top_isFixed': answer.t_isFixed}"?? -->
       <v-card>
-        <v-btn dark fab top right color="white" @click="nextAnswer(index+1)">
-          <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon>
+        <v-btn @click="nextAnswer(index+1)">
+          Next
         </v-btn>
+        <!-- <v-btn @click="preAnswer(index-1)">
+          Pre
+        </v-btn> -->
       </v-card>
 
       <!-- //回答内容 -->
@@ -47,6 +50,7 @@
         <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
       </v-card>
       <!-- //点赞，评论，收藏 -->
+      <!-- <comment :class="{'bottom_isFixed': answer.b_isFixed}" v-bind:id="answer.id" ref="comment" /> -->
       <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
 
     </v-card>
@@ -176,9 +180,10 @@ export default {
 
           for (var i = 0; i < this.answer_list.length; i++) {
             // for (var i = 0; i < ; i++) {
-            this.answer_list_debug[i]["isFixed"] = false;
-            this.answer_list_debug[i]["p_top"] = 1;
-            this.answer_list_debug[i]["offsetTop"] = 1;
+            this.answer_list[i]["isFixed"] = false;
+            // this.answer_list[i]["t_isFixed"] = false;
+            this.answer_list[i]["p_top"] = 1;
+            this.answer_list[i]["offsetTop"] = 1;
           }
         })
         .catch(e => {
@@ -194,6 +199,15 @@ export default {
 
       this.$vuetify.goTo(target, options);
       // $vuetify.goTo(target, options);
+    },
+    preAnswer(index){
+      let target = "#ans" + index;
+      if (target == "#ans" + this.answer_list.length) {
+        target = "#bottom";
+      }
+      let options = {};
+
+      this.$vuetify.goTo(target, options);
     },
     gotoHello() {
       this.$vuetify.goTo("#hello", {});
@@ -280,9 +294,19 @@ export default {
   background: #eeeeee;
   /* position: absolute; */
 }
+.bottom_isFixed {
+  position: fixed;
+  bottom: 0;
+  /* z-index: 999; */
+}
 .isFixed {
   position: fixed;
   bottom: 0;
+  /* z-index: 999; */
+}
+.top_isFixed {
+  position: fixed;
+  top: 0;
   /* z-index: 999; */
 }
 </style>
