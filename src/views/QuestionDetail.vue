@@ -199,6 +199,8 @@ export default {
         })
         .then(res => {
           this.question = res.data.data;
+
+          console.log(JSON.stringify(this.question));
         })
         .catch(e => {
           this.errors.push(e);
@@ -353,7 +355,7 @@ export default {
           array[i] = document.getElementById(id).offsetTop;
         }
         this.answer_offset_list = array;
-      }else{
+      } else {
         array = this.answer_offset_list;
       }
 
@@ -384,7 +386,7 @@ export default {
           array[i] = document.getElementById(id).offsetTop;
         }
         this.answer_offset_list = array;
-      }else{
+      } else {
         array = this.answer_offset_list;
       }
 
