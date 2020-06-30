@@ -10,6 +10,7 @@ import Debug2 from '../views/Debug2.vue'
 import personalPage from '../views/personalPage.vue'
 import searchPage from '../views/searchPage.vue'
 import personalInfoEdit from '../views/personalInfoEdit.vue'
+import AnswerDetail from '../views/AnswerDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -70,6 +71,12 @@ Vue.use(VueRouter)
       name: 'Debug2',
       component: Debug2
     },
+    {
+      path: '/answer',
+      name:'AnswerDetail',
+      component: AnswerDetail
+    },
+
   ]
 
 const router = new VueRouter({
