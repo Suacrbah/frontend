@@ -72,7 +72,7 @@ Vue.use(VueRouter)
       component: Debug2
     },
     {
-      path: '/answer',
+      path: '/answer/:answerId',
       name:'AnswerDetail',
       component: AnswerDetail
     },
