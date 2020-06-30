@@ -33,7 +33,7 @@
       </div>
 
       <v-card class="my-1">
-        <span>{{ total_answer_num }}</span>
+        <span>总共{{ total_answer_num }}个回答</span>
       </v-card>
 
       <!-- //回答列表 -->
@@ -62,7 +62,6 @@
         </v-card>
 
         <v-card v-bind:id="answer.id + '1'" :class="{'top_isFixed': answer.t_isFixed}">
-          {{answer.t_isFixed}}
           <v-btn dark fab top right @click="nextAnswer(index+1)">Next</v-btn>
           <v-btn white fab top @click="preAnswer(index-1)">Pre</v-btn>
         </v-card>
@@ -200,6 +199,8 @@ export default {
         })
         .then(res => {
           this.question = res.data.data;
+
+          console.log(JSON.stringify(this.question));
         })
         .catch(e => {
           this.errors.push(e);
@@ -297,11 +298,16 @@ export default {
         let header1 = document.getElementById(cm_id);
         let header2 = document.getElementById(cm_id + "1");
 
-        if (this.answer_list[i]["t_isFixed"] == false) {
-          this.answer_list[i]["p_top2"] = header2.offsetTop;
-        }
+        // if (this.answer_list[i]["t_isFixed"] == false) {
+        //   this.answer_list[i]["p_top2"] = header2.offsetTop;
+        //   // 为了防止抖动，这儿也需要判定
+        //   this.answer_list[i]["p_top"] = header.offsetTop;
+        //   this.answer_list[i]["offsetTop"] = header1.offsetTop;
+        // }
+
         // 防止抖动
-        if (this.answer_list[i]["isFixed"] == false) {
+        if (this.answer_list[i]["isFixed"] == false || this.answer_list[i]["t_isFixed" == false]) {
+          this.answer_list[i]["p_top2"] = header2.offsetTop;
           this.answer_list[i]["p_top"] = header.offsetTop;
           this.answer_list[i]["offsetTop"] = header1.offsetTop;
         }
@@ -349,7 +355,7 @@ export default {
           array[i] = document.getElementById(id).offsetTop;
         }
         this.answer_offset_list = array;
-      }else{
+      } else {
         array = this.answer_offset_list;
       }
 
@@ -380,7 +386,7 @@ export default {
           array[i] = document.getElementById(id).offsetTop;
         }
         this.answer_offset_list = array;
-      }else{
+      } else {
         array = this.answer_offset_list;
       }
 
@@ -423,7 +429,8 @@ export default {
 .isFixed {
   position: fixed;
   bottom: 0;
-  z-index: 999;
+  /* right: 0; */
+  z-index: 10000;
 }
 .top_isFixed {
   /* color: red */
