@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-bar></app-bar>
+    <app-bar @change_key_word="change_key_word" :q="key_word"></app-bar>
 
     <v-card class="mx-auto" max-width="1000">
       <v-card>
@@ -40,7 +40,7 @@
           <v-tab-item v-for="item  in items" :key="item.tab">
             <v-card width="100%" v-for="content in item.contents" :key="content">
               <v-card-title>{{ content.title }}</v-card-title>
-              <v-card-text>{{ content.content }}</v-card-text>
+              <v-card-text v-html="content.content.split('\\SPLIT\\')[0]" ></v-card-text>
             </v-card>
             <v-pagination
               v-model="item.current_page"
@@ -64,6 +64,7 @@ export default {
   },
   data() {
     return {
+      key_word:"",
       errors: [],
 
       userinfo: {
@@ -85,31 +86,13 @@ export default {
           tab: "收藏",
           total_page: 1,
           current_page: 1,
-          contents: [
-            {
-              question: "问题1",
-              answer: "简介"
-            },
-            {
-              question: "问题2",
-              answer: "简介"
-            }
-          ]
+          contents: [],
         },
         {
           tab: "回答",
           total_page: 1,
           current_page: 1,
-          contents: [
-            {
-              question: "问题1",
-              answer: "简介"
-            },
-            {
-              question: "问题2",
-              answer: "简介"
-            }
-          ]
+          contents: [],
         }
       ]
     };
@@ -167,7 +150,7 @@ export default {
           }
         })
         .then(res => {
-          // console.log(res.data);
+          console.log(res.data);
 
           _this.items[id].total_page = res.data.data.pages;
           _this.items[id].current_page = res.data.data.current;
@@ -183,7 +166,21 @@ export default {
         name: "personalInfoEdit",
         params: {}
       });
+    },
+
+
+
+    change_key_word(data){
+      this.key_word = data.query_key_word;
+      this.$router.push({
+        name: 'Search',
+        params:{
+          key_word:this.key_word
+        }
+      });
     }
+
+
   }
 };
 </script>

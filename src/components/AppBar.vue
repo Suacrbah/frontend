@@ -85,6 +85,8 @@ export default {
       ],
       dialog: false,
 
+      questionId:"",
+
       question_title:"",
 
       question_decription:"",
@@ -112,9 +114,8 @@ export default {
         query_key_word: this.q
       };
       this.$emit("change_key_word", data);
+      console.log(data.query_key_word);
     },
-
-    
 
 
     submitQuestion(){
@@ -128,14 +129,16 @@ export default {
         }
       })
       .then(res => {
-        console.log(res);
-      })
+      console.log("res:")
+      console.log(res);
+      this.questionId = res.data.data.id;
+      console.log(this.questionId)
+    })
       .catch( e=> {
         this.errors.push(e);
       })
-
       this.dialog = false;
-      this.reload();
+      // this.$router.push({name:"QuestionDetail", params:{questionId: this.questionId}});
     }
   }
 };
