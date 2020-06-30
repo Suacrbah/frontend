@@ -11,111 +11,106 @@
         ></v-img>
       </v-card>
 
-      <v-card class="mt-n14 ml-10" width="164" elevation="0">
-        <!-- <v-card class="px-1 py-1" @click="changeAvatar()">
-          <v-img src="https://cdn.vuetifyjs.com/images/john.jpg">
-            <v-overlay absolute :value="true">
-              <v-file-input multiple hide-input label="File input"><span> 编辑头像</span></v-file-input>
-            </v-overlay>
-          </v-img>
-        </v-card>-->
-        <v-card class="px-1 py-1">
-          <image-input @input="uploadAvatar">
-            <v-card slot="activator">
-              <v-img v-if="avatar==''" height="164px" width="164px" class="grey lighten-3">
-                <v-overlay absolute :value="true">
-                  <div>
-                    <v-icon>mdi-camera</v-icon>添加头像
-                  </div>
-                </v-overlay>
-              </v-img>
-              <v-img v-else :src="avatar">
-                <v-overlay absolute :value="true">
-                  <div>
-                    <v-icon>mdi-camera</v-icon>编辑头像
-                  </div>
-                </v-overlay>
-              </v-img>
+      <v-container>
+        <v-row class="justify-start">
+          <!-- //编辑头像 -->
+          <v-card class="mt-n14 ml-10" width="164" elevation="0">
+            <v-card class="px-1 py-1" v-ripple="{ center: true }">
+              <image-input @input="uploadAvatar">
+                <v-card slot="activator">
+                  <v-img v-if="avatar==''" height="164px" width="164px" class="grey lighten-3">
+                    <v-overlay absolute :value="true">
+                      <div>
+                        <v-icon>mdi-camera</v-icon>添加头像
+                      </div>
+                    </v-overlay>
+                  </v-img>
+                  <v-img v-else :src="avatar">
+                    <v-overlay absolute :value="true">
+                      <div>
+                        <v-icon>mdi-camera</v-icon>编辑头像
+                      </div>
+                    </v-overlay>
+                  </v-img>
+                </v-card>
+              </image-input>
             </v-card>
-          </image-input>
-        </v-card>
-      </v-card>
+          </v-card>
 
-        <v-container fluid>
+          <v-card
+            v-ripple="{ center: true }"
+            flat
+            class="text-h3 font-weight-medium ml-10"
+          >{{ userInfo.username }}</v-card>
+        </v-row>
+      </v-container>
 
-    <v-row>
-      <v-col cols="4">
-        <v-subheader style="color: black">性别</v-subheader>
-      </v-col>
-      <v-col cols="8">
-        <v-select
-          :items="items"
-        ></v-select>
-      </v-col>
-    </v-row>
+      <v-container fluid>
+        <v-row class="justify-center">
+          <v-col cols="2">
+            <v-subheader style="color: black">性别</v-subheader>
+          </v-col>
+          <v-col cols="6">
+            <v-select :items="items" v-model="userInfo.gender" :placeholder="userInfo.gender"></v-select>
+          </v-col>
+        </v-row>
 
-    <v-row>
-      <v-col cols="4">
-        <v-subheader style="color: black">一句话介绍</v-subheader>
-      </v-col>
-      <v-col cols="8">
-        <v-text-field
-        ></v-text-field>
-      </v-col>
-    </v-row>
+        <v-row class="justify-center">
+          <v-col cols="2">
+            <v-subheader style="color: black">电子邮箱</v-subheader>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field v-model="userInfo.email"></v-text-field>
+          </v-col>
+        </v-row>
 
-    <v-row>
-      <v-col cols="4">
-        <v-subheader style="color: black">居住地</v-subheader>
-      </v-col>
-      <v-col cols="8">
-        <v-text-field
-        ></v-text-field>
-      </v-col>
-    </v-row>
+        <v-row class="justify-center">
+          <v-col cols="2">
+            <v-subheader style="color: black">一句话介绍</v-subheader>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field v-model="userInfo.introduction"></v-text-field>
+          </v-col>
+        </v-row>
 
-    <v-row>
-      <v-col cols="4">
-        <v-subheader style="color: black">所在行业</v-subheader>
-      </v-col>
-      <v-col cols="8">
-        <v-text-field
-        ></v-text-field>
-      </v-col>
-    </v-row>
+        <v-row class="justify-center">
+          <v-col cols="2">
+            <v-subheader style="color: black">居住地</v-subheader>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field v-model="userInfo.postition"></v-text-field>
+          </v-col>
+        </v-row>
 
-    <v-row>
-      <v-col cols="4">
-        <v-subheader style="color: black">职业经历</v-subheader>
-      </v-col>
-      <v-col cols="8">
-        <v-text-field
-        ></v-text-field>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="4">
-        <v-subheader style="color: black">教育经历</v-subheader>
-      </v-col>
-      <v-col cols="8">
-        <v-text-field
-        ></v-text-field>
-      </v-col>
-    </v-row>
+        <v-row class="justify-center">
+          <v-col cols="2">
+            <v-subheader style="color: black">所在行业</v-subheader>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field v-model="userInfo.industry"></v-text-field>
+          </v-col>
+        </v-row>
 
-    <v-row>
-      <v-col cols="4">
-        <v-subheader style="color: black">个人简介</v-subheader>
-      </v-col>
-      <v-col cols="8">
-        <v-text-field
-        ></v-text-field>
-      </v-col>
-    </v-row>
-  </v-container>
+        <v-row class="justify-center">
+          <v-col cols="2">
+            <v-subheader style="color: black">职业经历</v-subheader>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field v-model="userInfo.career"></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row class="justify-center">
+          <v-col cols="2">
+            <v-subheader style="color: black">教育经历</v-subheader>
+          </v-col>
+          <v-col cols="6">
+            <v-text-field v-model="userInfo.education"></v-text-field>
+          </v-col>
+        </v-row>
+      </v-container>
 
       <v-card-actions>
-        <v-btn color="orange" text @click="submit()">Submit</v-btn>
+        <v-btn color="orange" text @click="submit()">保存修改</v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -133,24 +128,82 @@ export default {
   },
   data() {
     return {
-      items: ['男', '女'],
+      items: ["男", "女"],
       userInfo: {},
+
+      change_avatar: false, //记录用户是否修改头像
       avatar: "", //本地头像路径地址
       formData: Object
     };
   },
   created() {
-    this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    // 从sessionStorage获得用户信息
+    // this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
     // console.log(this.userInfo);
+
+    //发送请求获得用户详细信息
+    this.$axios
+      .get("/user/getInfo/", {
+        headers: {
+          Authorization: localStorage.getItem("token")
+        }
+      })
+      .then(res => {
+        // console.log(res);
+        this.userInfo = res.data.data;
+        console.log(this.userInfo);
+
+        this.avatar = this.userInfo.avatarUrl;
+      })
+      .catch(e => {
+        console.log(e);
+        this.errors.push(e);
+      });
   },
   methods: {
     uploadAvatar(data) {
-      // console.log(data);
       this.avatar = data["imageURL"];
       this.formData = data["formData"];
+      this.change_avatar = true;
     },
     submit() {
-      
+      // 单独上传头像（后端将头像url更新）
+      if (this.change_avatar) {
+        this.$axios
+          .post("/avatar/upload/", this.formData, {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          })
+          .then(res => {
+            res;
+          })
+          .catch(e => {
+            console.log(e);
+            this.errors.push(e);
+          });
+      }
+
+      this.userInfo.username = "FuyanYuan";
+
+      this.$axios
+        .post("/user/update/", this.userInfo, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          // console.log(res);
+          res;
+          this.$router.replace({
+            name: "personalPage",
+            params: {}
+          });
+        })
+        .catch(e => {
+          console.log(e);
+          this.errors.push(e);
+        });
     }
   }
 };
