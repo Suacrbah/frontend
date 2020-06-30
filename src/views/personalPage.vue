@@ -21,7 +21,7 @@
               <div></div>
             </v-card-text>
           </v-list-item-content>
-          <v-list-item-avatar tile size="80" color="blue">
+          <v-list-item-avatar color="blue">
             <v-img :src="userinfo.avatarurl"></v-img>
           </v-list-item-avatar>
         </v-list-item>

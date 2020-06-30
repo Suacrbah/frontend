@@ -17,8 +17,6 @@
 
         <v-btn class="hidden-sm-and-down" text @click="toMain()">首页</v-btn>
 
-        <v-btn class="hidden-sm-and-down" text @click="onClick($event, link)">发现</v-btn>
-
         <!-- <v-btn class="hidden-sm-and-down" text @click="addQuestion">提问</v-btn> -->
 
         <v-dialog v-model="dialog" scrollable max-width="600px">
@@ -57,7 +55,9 @@
         <v-menu bottom left :offset-y="true">
           <template v-slot:activator="{ on, attrs }">
             <v-btn dark icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-avatar>
+                <img :src="avatarURL" />
+              </v-avatar>
             </v-btn>
           </template>
 
@@ -79,11 +79,11 @@ export default {
     return {
       items: [
         { title: "个人中心" },
-        { title: "Click Me" },
-        { title: "Click Me" },
         { title: "退出登录" }
       ],
       dialog: false,
+
+      avatarURL: '',
 
       question_title:"",
 
@@ -93,6 +93,10 @@ export default {
   },
   props: {
     q: String
+  },
+
+  mounted() {
+    this.getAvatar()
   },
 
   methods: {
@@ -115,7 +119,9 @@ export default {
       console.log(data.query_key_word);
     },
 
-    
+    getAvatar() {
+      this.avatarURL = JSON.parse(sessionStorage.getItem("userInfo"))['avatar_url'];
+    },
 
 
     submitQuestion(){

@@ -136,6 +136,7 @@
         <v-btn v-if="show_text_field" max-width="90px" color="blue lighten-3" @click="submitReply">提交</v-btn>
       </v-card>
     </v-dialog>
+    <v-snackbar :timeout="2000" v-model="snackbar" top color="success">{{ msg }}</v-snackbar>
   </v-card>
 </template>
 
