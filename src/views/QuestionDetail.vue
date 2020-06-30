@@ -71,11 +71,7 @@
           <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
         </v-card>
         <!-- //点赞，评论，收藏 -->
-<<<<<<< HEAD
-        <!-- <comment :class="{'bottom_isFixed': answer.b_isFixed}" v-bind:id="answer.id" ref="comment" /> -->
-=======
         {{answer.t_isFixed}}
->>>>>>> ef3b29a94bee717aafb7f94994d0b650f614efc1
         <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
       </v-card>
     </v-card>
@@ -110,9 +106,6 @@ export default {
       offsetTop: {},
       p_top: {},
       clientHeight: 0,
-<<<<<<< HEAD
-      scrollTop: 0
-=======
       scrollTop: 0,
 
       fab: false,
@@ -163,7 +156,6 @@ export default {
           avatarUrl: "http://120.25.212.67:8205/images/admin_6f7cap.png"
         }
       ]
->>>>>>> ef3b29a94bee717aafb7f94994d0b650f614efc1
     };
   },
   mounted() {
