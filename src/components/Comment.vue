@@ -110,6 +110,7 @@
                     <v-img :src="subComment.avatarUrl"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
+                    <v-list-item-title v-text="subComment.username+' 回复 '+comments[subComment.replyToId].username"></v-list-item-title>
                     <v-list-item-title v-text="subComment.content"></v-list-item-title>
                   </v-list-item-content>
                   <v-btn
@@ -133,7 +134,12 @@
           <!-- <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn> -->
         </v-card-actions>
         <v-text-field :label="'回复'+r_username" v-model="comment_value" v-if="show_text_field"></v-text-field>
-        <v-btn v-if="show_text_field" max-width="90px" color="blue lighten-3" @click="submitReply">提交</v-btn>
+        <v-btn
+          v-if="show_text_field"
+          max-width="90px"
+          color="blue lighten-3"
+          @click="submitReply"
+        >提交</v-btn>
       </v-card>
     </v-dialog>
   </v-card>
@@ -241,9 +247,8 @@ export default {
       answer_id: 0
     };
   },
- 
-  methods: {
 
+  methods: {
     // Create an array the length of our items
     // with all values as true
     all() {
@@ -351,26 +356,28 @@ export default {
     },
 
     submitReply() {
-      var formdata = new FormData();
-      formdata.append("answer_id", this.id);
-      formdata.append("reply_to_id", this.r_commentid);
-      formdata.append("content", this.comment_value);
+      if (this.comment_value.length > 0) {
+        var formdata = new FormData();
+        formdata.append("answer_id", this.id);
+        formdata.append("reply_to_id", this.r_commentid);
+        formdata.append("content", this.comment_value);
 
-      this.$axios
-        .post("/comment/add", formdata, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(e => {
-          this.errors.push(e);
-        });
+        this.$axios
+          .post("/comment/add", formdata, {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          })
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(e => {
+            this.errors.push(e);
+          });
 
-      this.comment_value = "";
-      this.displayComment();
+        this.comment_value = "";
+        this.displayComment();
+      }
     }
   }
 };

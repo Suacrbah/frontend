@@ -47,7 +47,7 @@
           flat
           hide-details
           solo-inverted
-          label="搜索"
+          label="输入您要搜索的问题"
           style="max-width: 300px;"
           v-model="q"
         />
