@@ -64,26 +64,25 @@
     <v-snackbar :timeout="2000" v-model="snackbar" top color="success">{{ msg }}</v-snackbar>
   </v-card>-->
 
-  <v-card max-width="10000px" class="mx-auto" ref="comment" :id="id">
+  <v-card color='transparent' max-width="10000px" class="mx-auto" ref="comment" :id="id">
     <v-dialog v-model="dialog" scrollable max-width="1000px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn @click="thumb_up()" class="ma-2" color="yellow lighten-1">
-          <v-icon>mdi-thumb-up</v-icon>点赞
+        <v-btn @click="thumb_up()" class="ma-2" fab dark color="deep-orange">
+          <v-icon>mdi-thumb-up</v-icon>
         </v-btn>
 
         <v-btn
           class="mx-2"
-          max-width="90px"
-          color="blue lighten-3"
+          fab dark color="indigo"
           v-on="on"
           v-bind="attrs"
           @click="displayComment"
         >
-          <v-icon>mdi-message-text</v-icon>评论
+          <v-icon>mdi-message-text</v-icon>
         </v-btn>
 
-        <v-btn class="mx-2" color="green accent-3" @click="collection()">
-          <v-icon>mdi-star</v-icon>收藏
+        <v-btn class="mx-2" fab dark color="pink" @click="collection()">
+          <v-icon>mdi-star</v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -142,6 +141,7 @@
         >提交</v-btn>
       </v-card>
     </v-dialog>
+    <v-snackbar :timeout="2000" v-model="snackbar" top color="success">{{ msg }}</v-snackbar>
   </v-card>
 </template>
 
