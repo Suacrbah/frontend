@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="1000px" outlined>
+  <v-card auto-grow class="mx-auto" max-width="1000px" outlined>
     <v-list-item three-line>
       <v-list-item-content>
         <div class="overline mb-4">
@@ -10,12 +10,10 @@
         <div>
           <span
             v-if="!readMoreActivated"
-          >{{ question.content ? question.content.slice(0, 200) : "如题" }}</span>
+          >{{question.content.slice(0, 120)}}</span>
           <br v-if="!readMoreActivated" />
-          <br v-if="!readMoreActivated" />
-          <a class v-if="!readMoreActivated" @click="activateReadMore">展开全部</a>
-          <span v-if="readMoreActivated" v-text="question.content"></span>
-          <br v-if="readMoreActivated" />
+          <a class v-if="!readMoreActivated && (question.content.length>120) " @click="activateReadMore">展开全部</a>
+          <span auto-grow="true" v-if="readMoreActivated" v-text="question.content"></span>
           <br v-if="readMoreActivated" />
           <a class v-if="readMoreActivated" @click="disableReadMore">收起</a>
         </div>
@@ -25,9 +23,7 @@
     </v-list-item>
 
     <v-card-actions>
-      <v-btn>关注问题</v-btn>
       <v-btn color="pink lighten-3" @click="writeAnswer()">{{ write_answer_btn_text }}</v-btn>
-      <v-btn>邀请回答</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -39,6 +35,7 @@ export default {
   data() {
     return {
       readMoreActivated: false,
+      len_overview: 0,
 
       write_answer_btn_text: "写回答", //写回答按钮的文本：“写回答”，“编辑回答”
       answer: null, //如果用户写过回答，则存储该回答内容
@@ -63,6 +60,7 @@ export default {
           let answer = res.data.data;
           this.answer = answer.content.split("\\SPLIT\\")[1];
         }
+        this.question.content = this.question.content.split("\\SPLIT\\")[0];
       })
       .catch(e => {
         console.log(e);

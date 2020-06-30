@@ -64,26 +64,25 @@
     <v-snackbar :timeout="2000" v-model="snackbar" top color="success">{{ msg }}</v-snackbar>
   </v-card>-->
 
-  <v-card max-width="10000px" class="mx-auto" ref="comment" :id="id">
+  <v-card color='transparent' max-width="10000px" class="mx-auto" ref="comment" :id="id">
     <v-dialog v-model="dialog" scrollable max-width="1000px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn @click="thumb_up()" class="ma-2" color="yellow lighten-1">
-          <v-icon>mdi-thumb-up</v-icon>点赞
+        <v-btn @click="thumb_up()" class="ma-2" fab dark color="deep-orange">
+          <v-icon>mdi-thumb-up</v-icon>
         </v-btn>
 
         <v-btn
           class="mx-2"
-          max-width="90px"
-          color="blue lighten-3"
+          fab dark color="indigo"
           v-on="on"
           v-bind="attrs"
           @click="displayComment"
         >
-          <v-icon>mdi-message-text</v-icon>评论
+          <v-icon>mdi-message-text</v-icon>
         </v-btn>
 
-        <v-btn class="mx-2" color="green accent-3" @click="collection()">
-          <v-icon>mdi-star</v-icon>收藏
+        <v-btn class="mx-2" fab dark color="pink" @click="collection()">
+          <v-icon>mdi-star</v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -110,6 +109,7 @@
                     <v-img :src="subComment.avatarUrl"></v-img>
                   </v-list-item-avatar>
                   <v-list-item-content>
+                    <v-list-item-title v-text="subComment.username+' 回复 '+comments[subComment.replyToId].username"></v-list-item-title>
                     <v-list-item-title v-text="subComment.content"></v-list-item-title>
                   </v-list-item-content>
                   <v-btn
@@ -133,9 +133,15 @@
           <!-- <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn> -->
         </v-card-actions>
         <v-text-field :label="'回复'+r_username" v-model="comment_value" v-if="show_text_field"></v-text-field>
-        <v-btn v-if="show_text_field" max-width="90px" color="blue lighten-3" @click="submitReply">提交</v-btn>
+        <v-btn
+          v-if="show_text_field"
+          max-width="90px"
+          color="blue lighten-3"
+          @click="submitReply"
+        >提交</v-btn>
       </v-card>
     </v-dialog>
+    <v-snackbar :timeout="2000" v-model="snackbar" top color="success">{{ msg }}</v-snackbar>
   </v-card>
 </template>
 
@@ -241,9 +247,8 @@ export default {
       answer_id: 0
     };
   },
- 
-  methods: {
 
+  methods: {
     // Create an array the length of our items
     // with all values as true
     all() {
@@ -351,26 +356,28 @@ export default {
     },
 
     submitReply() {
-      var formdata = new FormData();
-      formdata.append("answer_id", this.id);
-      formdata.append("reply_to_id", this.r_commentid);
-      formdata.append("content", this.comment_value);
+      if (this.comment_value.length > 0) {
+        var formdata = new FormData();
+        formdata.append("answer_id", this.id);
+        formdata.append("reply_to_id", this.r_commentid);
+        formdata.append("content", this.comment_value);
 
-      this.$axios
-        .post("/comment/add", formdata, {
-          headers: {
-            Authorization: localStorage.getItem("token")
-          }
-        })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(e => {
-          this.errors.push(e);
-        });
+        this.$axios
+          .post("/comment/add", formdata, {
+            headers: {
+              Authorization: localStorage.getItem("token")
+            }
+          })
+          .then(res => {
+            console.log(res.data);
+          })
+          .catch(e => {
+            this.errors.push(e);
+          });
 
-      this.comment_value = "";
-      this.displayComment();
+        this.comment_value = "";
+        this.displayComment();
+      }
     }
   }
 };

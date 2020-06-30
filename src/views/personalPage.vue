@@ -21,7 +21,7 @@
               <div></div>
             </v-card-text>
           </v-list-item-content>
-          <v-list-item-avatar tile size="80" color="blue">
+          <v-list-item-avatar color="blue">
             <v-img :src="userinfo.avatarurl"></v-img>
           </v-list-item-avatar>
         </v-list-item>
@@ -39,8 +39,10 @@
         <v-tabs-items v-model="tab">
           <v-tab-item v-for="item  in items" :key="item.tab">
             <v-card width="100%" v-for="content in item.contents" :key="content">
-              <v-card-title>{{ content.title }}</v-card-title>
-              <v-card-text v-html="content.content.split('\\SPLIT\\')[0]" ></v-card-text>
+              <router-link @click="judge_url(tab)" :to="q_a_c + content.id" tag="v-btn">
+                <v-card-title>{{ content.title }}</v-card-title>
+                <v-card-text v-html="content.content.split('\\SPLIT\\')[0].slice(0, 100)"></v-card-text>
+              </router-link>
             </v-card>
             <v-pagination
               v-model="item.current_page"
@@ -64,7 +66,7 @@ export default {
   },
   data() {
     return {
-      key_word:"",
+      key_word: "",
       errors: [],
 
       userinfo: {
@@ -86,15 +88,19 @@ export default {
           tab: "收藏",
           total_page: 1,
           current_page: 1,
-          contents: [],
+          contents: []
         },
         {
           tab: "回答",
           total_page: 1,
           current_page: 1,
-          contents: [],
+          contents: []
         }
-      ]
+      ],
+
+      // 判断前缀，
+      q_a_c: "",
+
     };
   },
   mounted() {
@@ -168,19 +174,26 @@ export default {
       });
     },
 
-
-
-    change_key_word(data){
+    change_key_word(data) {
       this.key_word = data.query_key_word;
       this.$router.push({
-        name: 'Search',
-        params:{
-          key_word:this.key_word
+        name: "Search",
+        params: {
+          key_word: this.key_word
         }
       });
-    }
+    },
 
+    judge_url(id){
+      if(id == 0) this.q_a_c = "question";
+      else if(id == 1) this.q_a_c = "collection";
+      else if(id == 2) this.q_a_c = "answer";
+    },
 
+    // slice_content(){
+    //   var re = /<img>\.<\/img>/ 
+    //   this.replace("", re);
+    // }
   }
 };
 </script>

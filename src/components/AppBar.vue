@@ -17,21 +17,30 @@
 
         <v-btn class="hidden-sm-and-down" text @click="toMain()">首页</v-btn>
 
-        <v-btn class="hidden-sm-and-down" text @click="onClick($event, link)">发现</v-btn>
-
         <!-- <v-btn class="hidden-sm-and-down" text @click="addQuestion">提问</v-btn> -->
 
         <v-dialog v-model="dialog" scrollable max-width="600px">
           <template v-slot:activator="{ on, attrs }">
-            
-            <v-btn class="hidden-sm-and-down" text  v-on="on" v-bind="attrs">提问</v-btn>
+            <v-btn class="hidden-sm-and-down" text v-on="on" v-bind="attrs">提问</v-btn>
           </template>
           <v-card>
             <v-card-title>请输入你要提的问题，尽量详细</v-card-title>
             <v-divider></v-divider>
             <v-card-text style="height: 300px;">
-              <v-textarea auto-grow="true" label="请输入问题的标题" single-line="true" rows=1   v-model="question_title"></v-textarea>
-              <v-textarea auto-grow="true" label="请输入问题的具体描述" single-line="true" outlined="true"   v-model="question_decription"></v-textarea>
+              <v-textarea
+                auto-grow="true"
+                label="请输入问题的标题"
+                single-line="true"
+                rows="1"
+                v-model="question_title"
+              ></v-textarea>
+              <v-textarea
+                auto-grow="true"
+                label="请输入问题的具体描述"
+                single-line="true"
+                outlined="true"
+                v-model="question_decription"
+              ></v-textarea>
             </v-card-text>
             <v-divider></v-divider>
             <v-card-actions>
@@ -47,7 +56,7 @@
           flat
           hide-details
           solo-inverted
-          label="搜索"
+          label="输入您要搜索的问题"
           style="max-width: 300px;"
           v-model="q"
         />
@@ -57,7 +66,9 @@
         <v-menu bottom left :offset-y="true">
           <template v-slot:activator="{ on, attrs }">
             <v-btn dark icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-dots-vertical</v-icon>
+              <v-avatar>
+                <img :src="avatarURL" />
+              </v-avatar>
             </v-btn>
           </template>
 
@@ -77,24 +88,24 @@ export default {
   name: "AppBar",
   data() {
     return {
-      items: [
-        { title: "个人中心" },
-        { title: "Click Me" },
-        { title: "Click Me" },
-        { title: "退出登录" }
-      ],
+      items: [{ title: "个人中心" }, { title: "退出登录" }],
       dialog: false,
 
-      questionId:"",
+      questionId: "",
 
-      question_title:"",
+      avatarURL: "",
 
-      question_decription:"",
+      question_title: "",
 
+      question_decription: ""
     };
   },
   props: {
     q: String
+  },
+
+  mounted() {
+    this.getAvatar();
   },
 
   methods: {
@@ -117,28 +128,36 @@ export default {
       console.log(data.query_key_word);
     },
 
+    getAvatar() {
+      this.avatarURL = JSON.parse(sessionStorage.getItem("userInfo"))[
+        "avatar_url"
+      ];
+    },
 
-    submitQuestion(){
+    submitQuestion() {
       // alert("提交成功")
       var formdata = new FormData();
       formdata.append("title", this.question_title);
       formdata.append("content", this.question_decription);
-      this.$axios.post("/question/add", formdata, {
-        headers:{
-          Authorization: localStorage.getItem("token")
-        }
-      })
-      .then(res => {
-      console.log("res:")
-      console.log(res);
-      this.questionId = res.data.data.id;
-      console.log(this.questionId)
-    })
-      .catch( e=> {
-        this.errors.push(e);
-      })
-      this.dialog = false;
-      // this.$router.push({name:"QuestionDetail", params:{questionId: this.questionId}});
+
+      this.$axios
+        .post("/question/add", formdata, {
+          headers: {
+            Authorization: localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          this.questionId = res.data.data.id;
+          this.dialog = false;
+          // this.reload();
+          this.$router.push({
+            name: "QuestionDetail",
+            params: { questionId: this.questionId }
+          });
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
     }
   }
 };
