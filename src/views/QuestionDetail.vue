@@ -2,6 +2,30 @@
   <div>
     <app-bar @change_key_word="change_key_word" :q="key_word"></app-bar>
 
+    <!-- //top -->
+    <div id="top"></div>
+    <!-- // 菜单按钮 -->
+    <v-speed-dial class="menu_btn" v-model="fab" open-on-hover>
+      <template v-slot:activator>
+        <v-btn v-model="fab" color="blue darken-2" dark fab>
+          <v-icon v-if="fab">mdi-close</v-icon>
+          <v-icon v-else>mdi-plus</v-icon>
+        </v-btn>
+      </template>
+      <v-btn fab dark small color="green" @click="goToBottom">
+        <v-icon>mdi-chevron-double-down</v-icon>
+      </v-btn>
+      <v-btn fab dark small color="red" @click="goNext">
+        <v-icon>mdi-chevron-down</v-icon>
+      </v-btn>
+      <v-btn fab dark small color="indigo" @click="goPrev">
+        <v-icon>mdi-chevron-up</v-icon>
+      </v-btn>
+      <v-btn fab dark small color="blue" @click="goToTop">
+        <v-icon>mdi-chevron-double-up</v-icon>
+      </v-btn>
+    </v-speed-dial>
+
     <v-card id="hello" class="mx-auto" max-width="1000">
       <!-- //问题 -->
       <div>
@@ -13,11 +37,10 @@
       </v-card>
 
       <!-- //回答列表 -->
-      <div id="top"></div>
       <v-card
         v-for="(answer,index) in answer_list"
         :key="answer.id"
-        :id="answer.id+'0'"
+        :id="'answer'+index"
         ref="cardref"
       >
         <!-- //回答作者信息 -->
@@ -38,9 +61,6 @@
           </v-list>
         </v-card>
 
-        <!-- <v-icon color="blue-grey darken-2">mdi-chevron-double-down</v-icon> -->
-        <!-- //下一个回答按钮:class="{'top_isFixed': answer.t_isFixed}"?? -->
-        <!--  -->
         <v-card v-bind:id="answer.id + '1'" :class="{'top_isFixed': answer.t_isFixed}">
           {{answer.t_isFixed}}
           <v-btn dark fab top right @click="nextAnswer(index+1)">Next</v-btn>
@@ -52,11 +72,12 @@
           <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
         </v-card>
         <!-- //点赞，评论，收藏 -->
-        <!-- <comment :class="{'bottom_isFixed': answer.b_isFixed}" v-bind:id="answer.id" ref="comment" /> -->
         {{answer.t_isFixed}}
         <comment :class="{'isFixed': answer.isFixed}" v-bind:id="answer.id" ref="comment" />
       </v-card>
     </v-card>
+    <!-- //bottom -->
+    <div id="bottom"></div>
   </div>
 </template>
 
@@ -87,6 +108,9 @@ export default {
       p_top: {},
       clientHeight: 0,
       scrollTop: 0,
+
+      fab: false,
+      answer_offset_list: [],
 
       //静态数据s，用于测试
       answer_list_debug: [
@@ -142,11 +166,9 @@ export default {
 
     // 增加监听页面滑动事件
     window.addEventListener("scroll", this.handleScroll);
-    // 评论吸底效果
-    // window.addEventListener("scroll", this.initHeight);
 
     for (var i = 0; i < this.answer_list.length; i++) {
-      console.log("hello");
+      // console.log("hello");
       this.answer_list[i]["isFixed"] = false;
       this.answer_list[i]["t_isFixed"] = false;
       this.answer_list[i]["p_top"] = 0;
@@ -157,7 +179,7 @@ export default {
   },
   methods: {
     change_key_word(data) {
-      console.log("这啥啊");
+      // console.log("这啥啊");
       this.key_word = data.query_key_word;
       this.$router.push({
         name: "Search",
@@ -194,20 +216,23 @@ export default {
           }
         )
         .then(res => {
-          res;
           this.total_page_num = res.data.data.pages;
           this.num_per_page = res.data.data.size;
           this.total_answer_num = res.data.data.total;
 
           this.new_answer = res.data.data.records;
+
           for (var i = 0; i < this.new_answer.length; i++) {
-            console.log("hello");
+            // console.log("hello");
             this.new_answer[i]["isFixed"] = false;
             this.new_answer[i]["t_isFixed"] = false;
             this.new_answer[i]["p_top"] = 1;
             this.new_answer[i]["offsetTop"] = 1;
           }
           this.answer_list = this.answer_list.concat(this.new_answer);
+
+          //将answer_offset_list置空
+          this.answer_offset_list = [];
         })
         .catch(e => {
           this.errors.push(e);
@@ -231,9 +256,6 @@ export default {
       let options = {};
 
       this.$vuetify.goTo(target, options);
-    },
-    gotoHello() {
-      this.$vuetify.goTo("#hello", {});
     },
     handleScroll() {
       //变量scrollTop是滚动条滚动时,距离顶部的距离
@@ -271,7 +293,7 @@ export default {
 
       for (var i = 0; i < this.answer_list.length; i++) {
         let cm_id = this.answer_list[i].id;
-        let header = document.getElementById(cm_id + "0");
+        let header = document.getElementById("answer" + i);
         let header1 = document.getElementById(cm_id);
         let header2 = document.getElementById(cm_id + "1");
 
@@ -308,13 +330,77 @@ export default {
         this.$set(this.answer_list[j], "t_isFixed", res1);
         this.$set(this.answer_list[j], "isFixed", res0);
       }
+    },
+    goToBottom() {
+      this.$vuetify.goTo("#bottom");
+    },
+    goToTop() {
+      this.$vuetify.goTo("#top");
+    },
+    goNext() {
+      //变量scrollTop是滚动条滚动时,距离顶部的距离
+      let scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+
+      var array = new Array();
+      if (this.answer_offset_list.length == 0) {
+        for (let i = 0; i < this.answer_list.length; i++) {
+          let id = "answer" + i;
+          array[i] = document.getElementById(id).offsetTop;
+        }
+        this.answer_offset_list = array;
+      }else{
+        array = this.answer_offset_list;
+      }
+
+      // console.log(array);
+      // console.log(scrollTop);
+
+      //获得是第几个问题
+      var index;
+      for (index = 0; index < array.length; index++) {
+        if (scrollTop < array[index]) {
+          break;
+        }
+      }
+      // console.log(index);
+      index = Math.min(index, array.length - 2); //减2来保证index+1不越界
+
+      this.$vuetify.goTo("#answer" + (index + 1));
+    },
+    goPrev() {
+      //变量scrollTop是滚动条滚动时,距离顶部的距离
+      let scrollTop =
+        document.documentElement.scrollTop || document.body.scrollTop;
+
+      var array = new Array();
+      if (this.answer_offset_list.length == 0) {
+        for (let i = 0; i < this.answer_list.length; i++) {
+          let id = "answer" + i;
+          array[i] = document.getElementById(id).offsetTop;
+        }
+        this.answer_offset_list = array;
+      }else{
+        array = this.answer_offset_list;
+      }
+
+      //获得是第几个问题
+      var index;
+      for (index = 0; index < array.length; index++) {
+        if (scrollTop < array[index]) {
+          break;
+        }
+      }
+      // console.log(index);
+      index = Math.max(index, 1); //减2来保证index+1不越界
+
+      this.$vuetify.goTo("#answer" + (index - 1));
     }
   },
   destroyed_1() {
     window.removeEventListener("scroll", this.initHeight);
     window.removeEventListener("scroll", this.handleScroll);
-  },
-  
+  }
 };
 </script>
 
@@ -345,5 +431,10 @@ export default {
   top: 65px;
   color: darkblue;
   z-index: 999;
+}
+.menu_btn {
+  position: fixed;
+  bottom: 20px;
+  right: 50px;
 }
 </style>
