@@ -226,7 +226,7 @@ export default {
           for (var i = 0; i < this.new_answer.length; i++) {
             // console.log("hello");
             this.new_answer[i]["isFixed"] = false;
-            this.new_answer[i]["t_isFixed"] = false;
+            // this.new_answer[i]["t_isFixed"] = false;
             this.new_answer[i]["p_top"] = 1;
             this.new_answer[i]["offsetTop"] = 1;
           }
