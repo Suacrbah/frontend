@@ -44,6 +44,7 @@ export default {
   created() {
     //获得当前url
     var array = window.location.href.split("/");
+    console.log(array);
     this.question_id = array[array.length - 1];
     // console.log(this.question);
     // 检查是否回答过该问题
