@@ -29,7 +29,7 @@
     <v-card id="hello" class="mx-auto" max-width="1000">
       <!-- //问题 -->
       <div>
-        <ques-des v-bind:question="question"></ques-des>
+        <ques-des :question="question"></ques-des>
       </div>
 
       <v-card class="my-1">
