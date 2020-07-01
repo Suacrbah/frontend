@@ -77,6 +77,7 @@ export default {
   name: "AppBar",
   data() {
     return {
+      errors: [],
       items: [
         { title: "个人中心" },
         { title: "退出登录" }
@@ -104,10 +105,20 @@ export default {
       this.$router.push("/main");
     },
     toPage(i) {
+      const _this = this;
       if (i == 0) {
         this.$router.push("/personalpage");
-      } else if (i == 3) {
-        this.$router.push("/login");
+      } else if (i == 1) {
+        this.$axios.get('/logout', {
+        headers:{
+          Authorization: localStorage.getItem("token")
+        }
+        }).then(() => {
+          localStorage.clear();
+          sessionStorage.clear();
+          _this.$router.push("/login");
+        })
+        .catch(e => this.errors.push(e));
       }
     },
 
