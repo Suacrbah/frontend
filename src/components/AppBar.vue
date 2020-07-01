@@ -114,8 +114,10 @@ export default {
     },
     toPage(i) {
       if (i == 0) {
+
         this.$router.push("/personalpage");
       } else if (i == 3) {
+        
         this.$router.push("/login");
       }
     },
