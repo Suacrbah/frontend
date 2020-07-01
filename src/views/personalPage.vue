@@ -103,8 +103,6 @@ export default {
     };
   },
   mounted() {
-    // 获取用户的问题与回答信息
-    // getQA(),
     // 获取用户信息
     this.getUserInfo();
     this.changeToPage(0);
@@ -113,13 +111,6 @@ export default {
   },
 
   methods: {
-    getQA() {
-      // this.$axios
-      //     .get('', {headers: {"Authorization": localStorage.getItem("token")}})
-      //     .then(res => {
-      //       }
-      //     )
-    },
     getUserInfo() {
       var va = JSON.parse(sessionStorage.getItem("userInfo"));
       // console.log(sessionStorage.getItem("userInfo"));

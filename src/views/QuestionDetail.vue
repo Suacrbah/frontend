@@ -7,21 +7,21 @@
     <!-- // 菜单按钮 -->
     <v-speed-dial class="menu_btn" v-model="fab" open-on-hover>
       <template v-slot:activator>
-        <v-btn v-model="fab" color="blue darken-2" dark fab>
+        <v-btn x-large v-model="fab" color="blue darken-2" dark fab>
           <v-icon v-if="fab">mdi-close</v-icon>
           <v-icon v-else>mdi-plus</v-icon>
         </v-btn>
       </template>
-      <v-btn fab dark small color="green" @click="goToBottom">
+      <v-btn fab dark color="green" @click="goToBottom">
         <v-icon>mdi-chevron-double-down</v-icon>
       </v-btn>
-      <v-btn fab dark small color="red" @click="goNext">
+      <v-btn fab dark color="red" @click="goNext">
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
-      <v-btn fab dark small color="indigo" @click="goPrev">
+      <v-btn fab dark color="indigo" @click="goPrev">
         <v-icon>mdi-chevron-up</v-icon>
       </v-btn>
-      <v-btn fab dark small color="blue" @click="goToTop">
+      <v-btn fab dark color="blue" @click="goToTop">
         <v-icon>mdi-chevron-double-up</v-icon>
       </v-btn>
     </v-speed-dial>
@@ -226,7 +226,7 @@ export default {
           for (var i = 0; i < this.new_answer.length; i++) {
             // console.log("hello");
             this.new_answer[i]["isFixed"] = false;
-            this.new_answer[i]["t_isFixed"] = false;
+            // this.new_answer[i]["t_isFixed"] = false;
             this.new_answer[i]["p_top"] = 1;
             this.new_answer[i]["offsetTop"] = 1;
           }

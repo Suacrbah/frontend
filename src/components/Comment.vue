@@ -67,22 +67,23 @@
   <v-card color='transparent' max-width="10000px" class="mx-auto" ref="comment" :id="id">
     <v-dialog v-model="dialog" scrollable max-width="1000px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn @click="thumb_up()" class="ma-2" fab dark color="deep-orange">
-          <v-icon>mdi-thumb-up</v-icon>
+        <v-btn small @click="thumb_up()" class="ma-2" fab dark color="deep-orange">
+          <v-icon small>mdi-thumb-up</v-icon>
         </v-btn>
 
         <v-btn
+          small
           class="mx-2"
           fab dark color="indigo"
           v-on="on"
           v-bind="attrs"
           @click="displayComment"
         >
-          <v-icon>mdi-message-text</v-icon>
+          <v-icon small>mdi-message-text</v-icon>
         </v-btn>
 
-        <v-btn class="mx-2" fab dark color="pink" @click="collection()">
-          <v-icon>mdi-star</v-icon>
+        <v-btn small class="mx-2" fab dark color="pink" @click="collection()">
+          <v-icon small>mdi-star</v-icon>
         </v-btn>
       </template>
       <v-card>

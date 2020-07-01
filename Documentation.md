@@ -8,7 +8,7 @@
 
 ##### 	4. Pagination: 分页
 
-##### 	5. questionDes: 
+##### 	5. questionDes: 问题描述：包含问题标题，问题简介以及写回答编辑回答逻辑，
 
 #### 二、路由: 页面跳转的逻辑
 
@@ -46,7 +46,7 @@
 
 ##### 	4. Store: 前端数据的存储与传递
 
-##### 	5. MavonEditor: 
+##### 	5. MavonEditor: 富文本编辑器
 
 #### 八、函数
 
@@ -56,15 +56,13 @@
 
 ##### 	2. MainPage: 
 
-​	handleScroll(): 
+​	handleScroll(): 监听滑轮滚动，当滑轮到达页面底部时向后端请求之后的问题，并将其显示出来。
 
 ​	requestQuestion(page_num): 向服务器请求新的问题，page_num 即为当前是第几页，在axios发送请求时要在其中加入headers这个参数，若未登录则会返回登录页面。
 
-​	change_key_word(data): 
+​	change_key_word(data): 向后端发送搜索请求。
 
 ##### 	3. PersonalPage: 
-
-​	getQA(): 
 
 ​	getUserInfo(): 设置用户信息，用sessionStorage里的userInfo来为相关用户信息赋值。
 
@@ -74,13 +72,15 @@
 
 ​	requestQuestion(): 请求该问题的详情。
 
-​	requestAnswer(page_num): 
+​	requestAnswer(page_num): page_num表示当前回答所在分页数，请求当前页面的回答，然后动态刷新，同时初始化新回答的相关属性。
 
-​	nextAnswer(index): 
+​	nextAnswer(index): 跳转到下一个回答，index为跳转回答的索引，跳转到相应的回答。当目前是最后一个回答时，跳转到底部。
 
-​	gotoHello(): 
+​	nextAnswer(index): 跳转到上一个回答，index为跳转回答的索引，跳转到相应的回答。当目前是第一个回答时，跳转到顶部。
 
-​	handleScroll(): 
+​	handleScroll(): 监听滑轮滚动，当滑轮到达页面底部时向后端请求之后的问题，并将其显示出来。
+
+​	initHeight(): 实现评论栏的吸底效果。当回答高度超过可视区高度时，将评论栏固定到底部。同时添加条件判断防止抖动。
 
 ##### 	5. Register: 
 
@@ -90,19 +90,23 @@
 
 ##### 	6. searchPage:  
 
-​	handleScroll(): 
+​	handleScroll(): 监听滑轮滚动，当滑轮到达页面底部时向后端请求之后的问题，并将其显示出来。
 
-​	requestQuestion(page_num): 
+​	requestQuestion(page_num): page_num表示当前问题所在分页数，请求当前页面的问题，然后动态刷新，同时初始化新问题的相关属性。
 
-​	change_key_word(data): 
+​	change_key_word(data): 向后端发送搜索请求。
 
 ##### 	7. AppBar: 
 
 ​	toMain(): 跳转到主页。
 
-​	toPage(i): 
+​	toPage(i): 点击头像后跳出菜单按钮的页面跳转。
 
-​	search(): 
+​	search(): 将搜索关键字的参数传递给父组件。
+
+​	getAvatar(): 帮助函数，从sessionStorage里取出头像的地址。
+
+​	submitQuestion(): 提出问题，编辑问题后的提交逻辑。
 
 ##### 	8. Comment: 
 
@@ -114,23 +118,27 @@
 
 ​	collection(): 完成收藏和取消收藏，同时给用户显示“已收藏”或“取消收藏”信息。
 
-​	displayComment(): 
+​	displayComment(): 用两个数据结构存储一级评论与二级评论。
+
+​	replyComment(comment_id, user_name): 回复输入框默认隐藏，点击回复显示评论输入框。
+
+​	submitReply(): 添加评论。获取当前回答id，回复id，以及评论内容，然后以formdata的形式发送给后端，清空评论输入框，调用displayComment()展示最新回复。
 
 ##### 	9. editor: 
 
-​	\$imgAdd(pos, \$file): 
+​	\$imgAdd(pos, \$file): 添加图片。
 
-​	\$imgDel(pos):
+​	\$imgDel(pos): 删除图片。
 
-​	changeText(value, render): 
+​	changeText(value, render): 编辑。
 
-​	submit()
+​	submit(): 提交按钮,将目前编辑器的内容提交给后端。
 
 ##### 	11. questionDes: 
 
-​	activateReadMore(): 
+​	activateReadMore(): 问题简介折叠显示，展开全部按钮逻辑。
 
-​	disableReadMore(): 
+​	disableReadMore(): 问题折叠显示，收起按钮逻辑。
 
-​	writeAnswer(): 
+​	writeAnswer(): 写回答逻辑，跳转到回答编辑页面。
 
