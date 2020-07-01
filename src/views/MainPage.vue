@@ -160,45 +160,48 @@ export default {
           //总页数
           this.ans_total_page_num = res.data.data.pages;
 
-          //截取answer.content内容
-          var pattern = new RegExp("(?<=<p>).*?(?=</p>)");
+          //将answer.content内标签去掉
           for (let i = 0; i < res.data.data.records.length; i++) {
             var item = res.data.data.records[i];
-            var str = item.content;
+            let str = item.content.split("\\SPLIT\\")[0];
 
-            // console.log(i, str)
-            //提取出某一个<p>标签内容
-            var flag = true
-            while (flag) {
-              var p_matched = pattern.exec(str);
-              var p = p_matched ? p_matched[0] : ""; //内容
+            //以标签来分隔内容
+            let arr = str.split(/<.*?>/);
+            let len = arr.length;
+            var newArr = [];
 
-              // console.log(i, p)
-              if(p.search("<img")==-1){
-                flag = false
-              }else{
-                // console.log(p)
-                str = str.replace("<p>"+p+"</p>", "")
-                // console.log(str)
+            //均匀选择
+            if (len < 5) {
+              for (let i = 0; i < arr.length; i++) {
+                if (arr[i].length<10) {
+                  newArr.push(arr[i]);
+                }
+              }
+            } else {
+              for (let i = 0; i < 5; i++) {
+                let j = Math.floor((len * i) / 5);
+
+                //除去空的内容
+                do {
+                  if (arr[j].length > 10) {
+                    newArr.push(arr[j]);
+                    break;
+                  }
+                  j = j + 1;
+                } while (j < Math.floor((len * (i + 1)) / 5)); //不到达下一段
               }
             }
-            //除去<br>
-            p = p.split("<br>").join(" ")
 
-            //截取长度
-            if (p.length > 200) {
-              p = p.slice(0, 200);
-            }
-
-            item.content = p;
+            console.log(newArr)
+            item.content = newArr.join("。。。。。。");
             this.new_answer.push(item);
           }
           this.answer_list = this.answer_list.concat(this.new_answer);
           // console.log(this.answer_list);
         })
         .catch(e => {
-          this.errors.push(e);
           console.log(e);
+          this.errors.push(e);
           this.$router.push("/login");
         });
     },
