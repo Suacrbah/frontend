@@ -61,10 +61,10 @@
           </v-list>
         </v-card>
 
-        <v-card v-bind:id="answer.id + '1'" :class="{'top_isFixed': answer.t_isFixed}">
+        <!-- <v-card v-bind:id="answer.id + '1'" :class="{'top_isFixed': answer.t_isFixed}">
           <v-btn dark fab top right @click="nextAnswer(index+1)">Next</v-btn>
           <v-btn white fab top @click="preAnswer(index-1)">Pre</v-btn>
-        </v-card>
+        </v-card> -->
 
         <!-- //回答内容 -->
         <v-card class="my-1">
@@ -296,18 +296,16 @@ export default {
         let cm_id = this.answer_list[i].id;
         let header = document.getElementById("answer" + i);
         let header1 = document.getElementById(cm_id);
-        let header2 = document.getElementById(cm_id + "1");
+        // let header2 = document.getElementById(cm_id + "1")
 
-        // if (this.answer_list[i]["t_isFixed"] == false) {
+        // 防止抖动
+        // if (this.answer_list[i]["isFixed"] == false || this.answer_list[i]["t_isFixed" == false]) {
         //   this.answer_list[i]["p_top2"] = header2.offsetTop;
-        //   // 为了防止抖动，这儿也需要判定
         //   this.answer_list[i]["p_top"] = header.offsetTop;
         //   this.answer_list[i]["offsetTop"] = header1.offsetTop;
         // }
 
-        // 防止抖动
-        if (this.answer_list[i]["isFixed"] == false || this.answer_list[i]["t_isFixed" == false]) {
-          this.answer_list[i]["p_top2"] = header2.offsetTop;
+        if (this.answer_list[i]["isFixed"] == false) {
           this.answer_list[i]["p_top"] = header.offsetTop;
           this.answer_list[i]["offsetTop"] = header1.offsetTop;
         }
@@ -316,24 +314,20 @@ export default {
       for (var j = 0; j < this.answer_list.length; j++) {
         let offsetTop = this.answer_list[j]["offsetTop"];
         let p_top = this.answer_list[j]["p_top"];
-        let p_top2 = this.answer_list[j]["p_top2"];
+        // let p_top2 = this.answer_list[j]["p_top2"];
         // this.answer_list[j]["isFixed"]
         let res0 =
           this.scrollTop + this.clientHeight < offsetTop + p_top &&
           p_top + 600 < this.scrollTop + this.clientHeight
             ? true
             : false;
-        let res1 =
-          p_top2 + p_top < this.scrollTop &&
-          p_top + offsetTop > this.scrollTop + this.clientHeight
-            ? true
-            : false;
-        // if (res1 == true) console.log("hello");
-        // console.log(res0);
-        // console.log(res1);
-        // console.log("hello");
+        // let res1 =
+        //   p_top2 + p_top < this.scrollTop &&
+        //   p_top + offsetTop > this.scrollTop + this.clientHeight
+        //     ? true
+        //     : false;
 
-        this.$set(this.answer_list[j], "t_isFixed", res1);
+        // this.$set(this.answer_list[j], "t_isFixed", res1);
         this.$set(this.answer_list[j], "isFixed", res0);
       }
     },
