@@ -92,7 +92,7 @@ export default {
             // 获取
             console.log(_this.$store.getters.getUser);
 
-            _this.$router.push("/personalpage");
+            _this.$router.push("/main");
           } else {
             alert("Sorry, you have entered wrong info!");
           }
