@@ -151,6 +151,11 @@ export default {
           _this.items[id].total_page = res.data.data.pages;
           _this.items[id].current_page = res.data.data.current;
           _this.items[id].contents = res.data.data.records;
+          for(var i = 0; i<_this.items[id].contents.length; i++){
+            if("answerId" in _this.items[id].contents[i])
+              _this.items[id].contents[i]["id"] = _this.items[id].contents[i]["answerId"];
+          }
+          console.log(_this.items[id].contents);
         })
         .catch(e => {
           this.errors.push(e);
@@ -177,6 +182,7 @@ export default {
     judge_url(id, content_id){
       // console.log("hello")
       // alert("?????")
+      console.log(content_id);
       if(id == 0) this.$router.push({name:"QuestionDetail", params:{questionId:content_id}});
       else if(id == 1  || id == 2) this.$router.push({name:"AnswerDetail", params:{answerId:content_id}});
     },

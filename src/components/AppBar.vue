@@ -119,6 +119,7 @@ export default {
     toPage(i) {
       const _this = this;
       if (i == 0) {
+
         this.$router.push("/personalpage");
       } else if (i == 1) {
         this.$axios.get('/logout', {
