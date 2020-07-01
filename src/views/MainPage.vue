@@ -42,11 +42,10 @@
         <v-tab-item>
           <v-card width="100%">
             <v-card v-for="answer in answer_list" :key="answer.id">
-              <router-link :to="'answer/' + answer.id" tag="v-btn">
+              <div @click="$router.push('answer/'+answer.id)">
                 <v-card-title>{{ answer.title }}</v-card-title>
                 <v-card-text>{{ answer.content }}</v-card-text>
-                <!-- <v-card-text v-html="answer.content">{{ answer.content }}</v-card-text> -->
-              </router-link>
+              </div>
             </v-card>
 
             <v-progress-linear
@@ -162,8 +161,8 @@ export default {
 
           //将answer.content内标签去掉
           for (let i = 0; i < res.data.data.records.length; i++) {
-            var item = res.data.data.records[i];
-            let str = item.content.split("\\SPLIT\\")[0];
+            var item = res.data.data.records[i];  //每个回答
+            let str = item.content.split("\\SPLIT\\")[0]; //回答content中html部分
 
             //以标签来分隔内容
             let arr = str.split(/<.*?>/);
@@ -171,7 +170,7 @@ export default {
             var newArr = [];
 
             //均匀选择
-            if (len < 5) {
+            if (len < 5) {  //当回答很短时
               for (let i = 0; i < arr.length; i++) {
                 if (arr[i].length<10) {
                   newArr.push(arr[i]);
@@ -192,8 +191,8 @@ export default {
               }
             }
 
-            console.log(newArr)
-            item.content = newArr.join("。。。。。。");
+            // console.log(newArr)
+            item.content = newArr.join("    ............    ");
             this.new_answer.push(item);
           }
           this.answer_list = this.answer_list.concat(this.new_answer);
