@@ -54,7 +54,7 @@ export default {
   components: { AppBar },
   data() {
     return {
-      key_word:"请输入你要查询的内容",
+      key_word:"",
       tabs: null,
 
       questions_list: [], //存放主页的问题列表

@@ -20,7 +20,7 @@
         <v-tab-item> -->
           <v-card width="100%">
             <v-card v-for="question in questions_list" :key="question.id">
-              <router-link :to="'question/' + question.id" tag="v-btn">
+              <router-link :to="'/question/' + question.id" tag="v-btn">
                 <v-card-title>{{ question.title }}</v-card-title>
                 <v-card-text>{{ question.content }}</v-card-text>
               </router-link>

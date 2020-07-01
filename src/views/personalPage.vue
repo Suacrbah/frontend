@@ -39,8 +39,8 @@
         <v-tabs-items v-model="tab">
           <v-tab-item v-for="item  in items" :key="item.tab">
             <v-card width="100%" v-for="content in item.contents" :key="content">
-              <v-card-title>{{ content.title }}</v-card-title>
-              <v-card-text v-html="content.content.split('\\SPLIT\\')[0]" ></v-card-text>
+                <v-card-title v-on:click="judge_url(tab, content.id)">{{ content.title }}</v-card-title>
+                <v-card-text v-on:click="judge_url(tab, content.id)" v-html="content.content.split('\\SPLIT\\')[0].slice(0, 100)"></v-card-text>
             </v-card>
             <v-pagination
               v-model="item.current_page"
@@ -64,7 +64,7 @@ export default {
   },
   data() {
     return {
-      key_word:"",
+      key_word: "",
       errors: [],
 
       userinfo: {
@@ -86,15 +86,20 @@ export default {
           tab: "收藏",
           total_page: 1,
           current_page: 1,
-          contents: [],
+          contents: []
         },
         {
           tab: "回答",
           total_page: 1,
           current_page: 1,
-          contents: [],
+          contents: []
         }
-      ]
+      ],
+
+      // 判断前缀，
+      q_a_c: "",
+      url:"",
+
     };
   },
   mounted() {
@@ -168,19 +173,27 @@ export default {
       });
     },
 
-
-
-    change_key_word(data){
+    change_key_word(data) {
       this.key_word = data.query_key_word;
       this.$router.push({
-        name: 'Search',
-        params:{
-          key_word:this.key_word
+        name: "Search",
+        params: {
+          key_word: this.key_word
         }
       });
-    }
+    },
 
+    judge_url(id, content_id){
+      // console.log("hello")
+      // alert("?????")
+      if(id == 0) this.$router.push({name:"QuestionDetail", params:{questionId:content_id}});
+      else if(id == 1  || id == 2) this.$router.push({name:"AnswerDetail", params:{answerId:content_id}});
+    },
 
+    // slice_content(){
+    //   var re = /<img>\.<\/img>/ 
+    //   this.replace("", re);
+    // }
   }
 };
 </script>

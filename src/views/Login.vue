@@ -1,45 +1,62 @@
 <template>
-  <v-app id="inspire">
-    <v-main>
-      <v-container class="fill-height" fluid>
-        <v-row align="center" justify="center">
-          <v-col cols="12" sm="8" md="4">
-            <v-card class="elevation-12">
-              <v-toolbar color="primary" dark flat>
-                <v-toolbar-title>Login form</v-toolbar-title>
-                <v-spacer></v-spacer>
-              </v-toolbar>
-              <v-card-text>
-                <v-form>
-                  <v-text-field
-                    id="username"
-                    label="Username"
-                    name="username"
-                    v-model="form.username"
-                    prepend-icon="mdi-account"
-                    type="text"
-                  ></v-text-field>
+  <div class="fill-height back">
+    <!-- // 每日一圖 -->
+    <div class="daily_image_text">
+      <span class="text-h6 font-weight-medium white--text">@Bing daily image</span>
+    </div>
 
-                  <v-text-field
-                    id="password"
-                    label="Password"
-                    name="password"
-                    v-model="form.hashedPassword"
-                    prepend-icon="mdi-lock"
-                    type="password"
-                  ></v-text-field>
-                </v-form>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn @click="submitForm()" style="bottom: 12px" color="primary">Login</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+    <v-row align="center" justify="center" class="fill-height">
+      <v-col cols="12" sm="8" md="4">
+        <!-- // Logo -->
+        <div class="mb-10">
+          <v-img
+            height="164px"
+            width="164px"
+            class="grey lighten-3 mx-auto"
+            :src="require('@/assets/logo.png')"
+          ></v-img>
+          <div class="text-center">
+            <span class="text-h6 white--text">BeHoo</span>
+          </div>
+        </div>
+
+        <!-- //表单 -->
+        <v-card class="elevation-12">
+          <v-card-text>
+            <v-toolbar color="primary" dark flat>
+              <v-toolbar-title>Login</v-toolbar-title>
+              <v-spacer></v-spacer>
+            </v-toolbar>
+
+            <v-form>
+              <v-text-field
+                id="username"
+                label="Username"
+                name="username"
+                v-model="form.username"
+                prepend-icon="mdi-account"
+                type="text"
+              ></v-text-field>
+
+              <v-text-field
+                id="password"
+                label="Password"
+                name="password"
+                v-model="form.hashedPassword"
+                prepend-icon="mdi-lock"
+                type="password"
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click="submitForm()" style="bottom: 12px" color="primary">Login</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
@@ -55,6 +72,7 @@ export default {
       res: ""
     };
   },
+  created() {},
   methods: {
     submitForm() {
       const _this = this;
@@ -86,3 +104,19 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.back {
+  background-image: url(https://bing.biturl.top/?resolution=1920&format=image&index=0&mkt=zh-CN);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.daily_image_text {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+}
+</style>
