@@ -5,7 +5,7 @@
         <div class="overline mb-4">
           OVERLINE
         </div>
-        <v-list-item-title class="headline mb-1">{{question.title}}</v-list-item-title>
+        <v-list-item-title class="headline font-weight-black">{{question.title}}</v-list-item-title>
 
         <div>
           <span
@@ -22,16 +22,18 @@
       </v-list-item-content>
     </v-list-item>
 
+  
     <v-card-actions>
       <v-btn color="pink lighten-3" @click="writeAnswer()">{{ write_answer_btn_text }}</v-btn>
     </v-card-actions>
+    <v-card-text>总共{{ total_answer_num }}个回答</v-card-text>
   </v-card>
 </template>
 
 <script>
 export default {
   name: "QuesDes",
-  props: ["question"],
+  props: ["question", "total_answer_num"],
   data() {
     return {
       readMoreActivated: false,

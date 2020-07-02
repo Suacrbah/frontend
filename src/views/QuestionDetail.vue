@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-bar @change_key_word="change_key_word" :q="key_word"></app-bar>
+    <app-bar @change_key_word="change_key_word"  :q="key_word"></app-bar>
 
     <!-- //top -->
     <div id="top"></div>
@@ -29,30 +29,28 @@
     <v-card id="hello" class="mx-auto" max-width="1000">
       <!-- //问题 -->
       <div>
-        <ques-des :question="question"></ques-des>
+        <ques-des :total_answer_num="total_answer_num" v-bind:question="question"></ques-des>
       </div>
-
-      <v-card class="my-1">
-        <span>总共{{ total_answer_num }}个回答</span>
-      </v-card>
 
       <!-- //回答列表 -->
       <v-card
+        flat
+        outlined
         v-for="(answer,index) in answer_list"
         :key="answer.id"
         :id="'answer'+index"
         ref="cardref"
       >
         <!-- //回答作者信息 -->
-        <v-card :id="'ans'+index">
+        <v-card outlined="true" :id="'ans'+index">
           <v-list three-line>
             <v-list-item>
               <v-list-item-avatar>
                 <v-img :src="answer.avatarUrl"></v-img>
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title v-text="answer.username"></v-list-item-title>
-                <v-list-item-subtitle v-text="answer.introduction"></v-list-item-subtitle>
+                <v-list-item-title class="font-weight-black" v-text="answer.username"></v-list-item-title>
+                <v-list-item-subtitle class="font-weight-black" v-text="answer.introduction"></v-list-item-subtitle>
                 <v-list-item-subtitle
                   v-text="answer.likeCount + '人赞同该回答，' + answer.collectCount + '人收藏该回答'"
                 ></v-list-item-subtitle>
@@ -67,7 +65,7 @@
         </v-card> -->
 
         <!-- //回答内容 -->
-        <v-card class="my-1">
+        <v-card outlined="true" class="my-1">
           <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
         </v-card>
         <!-- //点赞，评论，收藏 -->

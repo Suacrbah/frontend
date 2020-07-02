@@ -8,17 +8,16 @@
     <v-row align="center" justify="center" class="fill-height">
       <v-col cols="12" sm="8" md="4">
         <!-- // Logo -->
-        <div class="mb-10">
+        <v-card color="transparent" flat class="mb-5">
           <v-img
-            height="164px"
-            width="164px"
-            class="grey lighten-3 mx-auto"
+            background-color="transparent"
+            height="80px"
+            width="200px"
+            contain
+            class="mx-auto"
             :src="require('@/assets/logo.png')"
           ></v-img>
-          <div class="text-center">
-            <span class="text-h6 white--text">BeHoo</span>
-          </div>
-        </div>
+        </v-card>
 
         <!-- //表单 -->
         <v-card class="elevation-12">

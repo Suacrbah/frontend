@@ -2,7 +2,7 @@
   <v-card>
     <mavon-editor v-model="value" @imgAdd="$imgAdd" ref="md" @change="changeText" />
 
-    <v-btn @click="submit">Submit</v-btn>
+    <v-btn @click="submit">提交</v-btn>
     <v-btn @click="exit">放弃</v-btn>
   </v-card>
 </template>
