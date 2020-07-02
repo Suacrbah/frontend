@@ -42,7 +42,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="1">
-                  <v-btn color="primary" style="top:12px" @click="sendCode()">GetCode</v-btn>
+                  <v-btn color="primary" style="top: 12px" @click="sendCode()">GetCode</v-btn>
                 </v-col>
               </v-row>
 
