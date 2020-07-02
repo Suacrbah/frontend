@@ -179,7 +179,9 @@ export default {
             // console.log(res)
 
             let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
+            console.log(userInfo)
             userInfo["avatar_url"] = res.data.msg
+            
             this.$store.commit("set_userInfo", userInfo)
           })
           .catch(e => {
@@ -195,8 +197,13 @@ export default {
           }
         })
         .then(res => {
-          // console.log(res);
+          let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
+          console.log(res.data)
           res;
+          // userInfo[]
+          userInfo["introduction"] = res.data.data["introduction"]
+          userInfo["email"] = res.data.data["email"]
+          this.$store.commit("set_userInfo", userInfo)
           this.$router.push({
             name: "personalPage",
             params: {}
