@@ -58,7 +58,8 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn style="bottom: 12px" color="primary" @click="submitForm()">Register</v-btn>
+            <v-btn @click="$router.replace('login')" style="bottom: 12px" color="primary">Login</v-btn>
+            <v-btn style="bottom: 12px" color="primary" @click="submitForm()">Submit</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
