@@ -151,7 +151,7 @@ export default {
       .then(res => {
         // console.log(res);
         this.userInfo = res.data.data;
-        console.log(this.userInfo);
+        // console.log(this.userInfo);
 
         this.avatar = this.userInfo.avatarUrl;
       })
@@ -176,7 +176,11 @@ export default {
             }
           })
           .then(res => {
-            res;
+            // console.log(res)
+
+            let userInfo = JSON.parse(sessionStorage.getItem("userInfo"))
+            userInfo["avatar_url"] = res.data.msg
+            this.$store.commit("set_userInfo", userInfo)
           })
           .catch(e => {
             console.log(e);
@@ -195,7 +199,7 @@ export default {
         .then(res => {
           // console.log(res);
           res;
-          this.$router.replace({
+          this.$router.push({
             name: "personalPage",
             params: {}
           });

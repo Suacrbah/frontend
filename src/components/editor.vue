@@ -22,7 +22,7 @@ export default {
   },
   mounted() {
     //获得当前url
-    console.log(this.$route.params);
+    // console.log(this.$route.params);
     // console.log(this.$route.path);
     // console.log(window.location.href);
 

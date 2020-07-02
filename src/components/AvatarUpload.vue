@@ -65,7 +65,7 @@ export default {
           let formData = new FormData();
           let imageURL = URL.createObjectURL(imageFile);
 
-          console.log(imageFile);
+          // console.log(imageFile);
           formData.append("files", imageFile);
 
           // Emit FormData & image URL to the parent component

@@ -102,7 +102,7 @@ export default {
 
     };
   },
-  mounted() {
+  created() {
     // 获取用户信息
     this.getUserInfo();
     this.changeToPage(0);
@@ -146,7 +146,7 @@ export default {
           }
         })
         .then(res => {
-          console.log(res.data);
+          // console.log(res.data);
 
           _this.items[id].total_page = res.data.data.pages;
           _this.items[id].current_page = res.data.data.current;
@@ -155,7 +155,7 @@ export default {
             if("answerId" in _this.items[id].contents[i])
               _this.items[id].contents[i]["id"] = _this.items[id].contents[i]["answerId"];
           }
-          console.log(_this.items[id].contents);
+          // console.log(_this.items[id].contents);
         })
         .catch(e => {
           this.errors.push(e);
@@ -182,7 +182,7 @@ export default {
     judge_url(id, content_id){
       // console.log("hello")
       // alert("?????")
-      console.log(content_id);
+      // console.log(content_id);
       if(id == 0) this.$router.push({name:"QuestionDetail", params:{questionId:content_id}});
       else if(id == 1  || id == 2) this.$router.push({name:"AnswerDetail", params:{answerId:content_id}});
     },
