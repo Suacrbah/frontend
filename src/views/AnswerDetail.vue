@@ -86,10 +86,14 @@ export default {
   created() {
     // console.log(this.$route.params)
     this.answer_id = this.$route.params.answerId;
-    this.question_id = this.$route.params.questionId;
+    this.question_id = this.$route.params.questionId; 
+    /*这句可以不用，先请求Answer，从中获得question_id。
+    如果在router.push时携带参数，在刷新页面后，就获取不到该参数，这一点不知如何处理，
+    因此先采用笨办法
+    */
 
-    this.requestQuestion()
     this.requestAnswer()
+    // this.requestQuestion() 
   },
 
   methods: {
@@ -122,6 +126,9 @@ export default {
         .then(res => {
           this.answer = res.data.data;
           console.log(this.answer);
+
+          this.question_id = this.answer.questionId
+          this.requestQuestion()
         })
         .catch(e => {
           console.log(e);
