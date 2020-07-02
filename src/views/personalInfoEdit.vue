@@ -188,8 +188,6 @@ export default {
           });
       }
 
-      this.userInfo.username = "FuyanYuan";
-
       this.$axios
         .post("/user/update/", this.userInfo, {
           headers: {
