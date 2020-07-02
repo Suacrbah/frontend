@@ -22,10 +22,10 @@
         <v-tab-item>
           <v-card width="100%">
             <v-card v-for="question in question_list" :key="question.id">
-              <router-link :to="'question/' + question.id" tag="v-btn">
+              <div @click="$router.push('question/' + question.id)">
                 <v-card-title>{{ question.title }}</v-card-title>
                 <v-card-text>{{ question.content }}</v-card-text>
-              </router-link>
+              </div>
             </v-card>
 
             <v-progress-linear
@@ -42,7 +42,7 @@
         <v-tab-item>
           <v-card width="100%">
             <v-card v-for="answer in answer_list" :key="answer.id">
-              <div @click="$router.push('answer/'+answer.id)">
+              <div @click="goAnswerDetail(answer)">
                 <v-card-title>{{ answer.title }}</v-card-title>
                 <v-card-text>{{ answer.content }}</v-card-text>
               </div>
@@ -213,6 +213,17 @@ export default {
           key_word: this.key_word
         }
       });
+    },
+
+    goAnswerDetail(answer){
+      // console.log(answer)
+      this.$router.push({
+        name: 'AnswerDetail',
+        params: {
+          answerId: answer.id,
+          questionId: answer.questionId
+        }
+      })
     }
   }
 };
