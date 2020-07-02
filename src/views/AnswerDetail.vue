@@ -51,8 +51,9 @@
       </v-card>
 
       <!-- //回答内容 -->
+      <link href="https://cdn.bootcss.com/github-markdown-css/2.10.0/github-markdown.min.css" rel="stylesheet">
       <v-card class="my-1">
-        <div v-html="answer.content.split('\\SPLIT\\')[0]"></div>
+        <div class="markdown-body ma-5" v-html="answer.content.split('\\SPLIT\\')[0]"></div>
       </v-card>
 
       <!-- //点赞，评论，收藏 -->
