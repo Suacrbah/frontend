@@ -6,14 +6,14 @@
           :src="require('@/assets/logo.png')"
           class="mr-5"
           contain
-          height="48"
-          width="48"
-          max-width="48"
+          height="90"
+          width="90"
+          max-width="90"
           @click="$vuetify.goTo(0)"
         />
-        <v-toolbar-title class="headline">
+        <!-- <v-toolbar-title class="headline">
           <span class="font-weight-bold">BeHoo</span>
-        </v-toolbar-title>
+        </v-toolbar-title> -->
 
         <v-btn class="hidden-sm-and-down" text @click="toMain()">首页</v-btn>
 

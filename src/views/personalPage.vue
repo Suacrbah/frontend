@@ -21,7 +21,7 @@
               <div></div>
             </v-card-text>
           </v-list-item-content>
-          <v-list-item-avatar color="blue">
+          <v-list-item-avatar color="green">
             <v-img :src="userinfo.avatarurl"></v-img>
           </v-list-item-avatar>
         </v-list-item>
@@ -32,7 +32,7 @@
       </v-card>
 
       <v-card flat class="mx-auto">
-        <v-tabs v-model="tab" background-color="blue" dark show-arrows>
+        <v-tabs v-model="tab" color="#FF9800" dark show-arrows>
           <v-tab v-for="item in items" @click="changeToPage(tab)" :key="item.tab">{{ item.tab }}</v-tab>
         </v-tabs>
 

@@ -64,7 +64,7 @@
     <v-snackbar :timeout="2000" v-model="snackbar" top color="success">{{ msg }}</v-snackbar>
   </v-card>-->
 
-  <v-card color='transparent' max-width="10000px" class="mx-auto" ref="comment" :id="id">
+  <v-card flat="flase" outlined="true" color='transparent' max-width="10000px" class="mx-auto" ref="comment" :id="id">
     <v-dialog v-model="dialog" scrollable max-width="1000px">
       <template v-slot:activator="{ on, attrs }">
         <v-btn small @click="thumb_up()" class="ma-2" fab dark color="deep-orange">
