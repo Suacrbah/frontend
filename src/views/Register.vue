@@ -30,25 +30,22 @@
                 type="password"
               ></v-text-field>
 
-              <v-row>
-                <v-col cols="9">
-                  <v-text-field
-                    id="email"
-                    label="Email"
-                    name="email"
-                    v-model="form.email"
-                    prepend-icon="mdi-email"
-                    type="text"
-                  ></v-text-field>
-                </v-col>
-                <v-col cols="1">
-                  <v-btn color="primary" style="top: 12px" @click="sendCode()">GetCode</v-btn>
-                </v-col>
+              <v-text-field
+                id="email"
+                label="Email"
+                name="email"
+                v-model="form.email"
+                prepend-icon="mdi-email"
+                type="text"
+              ></v-text-field>
+
+              <v-row justify="end">
+                <v-btn class="mr-1" color="primary" @click="sendCode()">GetCode</v-btn>
               </v-row>
 
               <v-text-field
                 id="captcha"
-                label="Captcha"
+                label="verification code"
                 name="captcha"
                 v-model="form.validCode"
                 prepend-icon="mdi-captcha"
